@@ -49,6 +49,8 @@ GameObject:
   - component: {fileID: -2860305743413798221}
   - component: {fileID: 627556911}
   - component: {fileID: 5886690192474179660}
+  - component: {fileID: -1565870642394240167}
+  - component: {fileID: -7012021955273021103}
   m_Layer: 0
   m_Name: Prometheus
   m_TagString: Untagged
@@ -124,7 +126,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 261786959625234688}
-  clientAuthority: 1
+  clientAuthority: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -203,6 +205,40 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &-1565870642394240167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642287924342879162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99917e2a704cb3b4a8764b2532a73d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Speed: 0
+  CheckpointsReached: 0
+--- !u!114 &-7012021955273021103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642287924342879162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c9bd33d16d4a8943a880f2f0dbd0473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  PlayerID: -1
+  ConnID: -1
 --- !u!1 &934883528070179459
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +669,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
