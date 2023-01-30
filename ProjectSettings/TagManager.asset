@@ -10,6 +10,7 @@ TagManager:
   - UIMain
   - CrashMode
   - Checkpoint
+  - UISkill
   layers:
   - Default
   - TransparentFX
