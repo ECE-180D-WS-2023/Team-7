@@ -9,6 +9,7 @@ public class UpdateStats : NetworkBehaviour
 
     public int Speed = 0;
     public int CheckpointsReached = 0;
+    public int TotalCheckpoints = 0;
 
     private void UpdateSpeed()
     {
@@ -16,17 +17,19 @@ public class UpdateStats : NetworkBehaviour
     }
 
     [Command]
-    private void UpdateProgress()
+    public void UpdateProgress()
     {
+        TotalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
         int playerID = GetComponent<NetworkInfo>().PlayerID;
         if (playerID == 1)
         {
-            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player1Progress = "Player1: " + CheckpointsReached.ToString();
+            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player1Progress = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
         } else if (playerID == 2)
         {
-            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player2Progress = "Player2: " + CheckpointsReached.ToString();
+            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player2Progress = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
         }
     }
+
 
 
     // Update is called once per frame
@@ -36,7 +39,6 @@ public class UpdateStats : NetworkBehaviour
         {
             Speed = (int)GetComponent<PrometeoCarController>().carSpeed;
             UpdateSpeed();
-            UpdateProgress();
         }
     }
 }

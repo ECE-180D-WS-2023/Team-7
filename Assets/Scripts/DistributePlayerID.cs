@@ -8,7 +8,7 @@ public class DistributePlayerID : NetworkBehaviour
 
     private IDictionary<int, int> PlayerIDtoConnID = new Dictionary<int, int>();
 
-
+    // Initialize the dictionary
     private void Start()
     {
         PlayerIDtoConnID.Add(1, -1);
@@ -24,7 +24,6 @@ public class DistributePlayerID : NetworkBehaviour
 
     public (int, int) ReturnPlayerID()
     {
-
         int connIDToAdd = -1;
         foreach (var connection in NetworkServer.connections)
         {
