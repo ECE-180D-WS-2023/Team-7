@@ -11,6 +11,8 @@ TagManager:
   - CrashMode
   - Checkpoint
   - UISkill
+  - UIProgress1
+  - UIProgress2
   layers:
   - Default
   - TransparentFX

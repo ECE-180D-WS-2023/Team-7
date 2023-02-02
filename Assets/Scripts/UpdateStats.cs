@@ -16,17 +16,24 @@ public class UpdateStats : NetworkBehaviour
        GameObject.FindGameObjectWithTag("UISpeed").GetComponent<TMP_Text>().text = "Speed: " + Speed.ToString() + "km/h";
     }
 
-    [Command]
+
+    [Command(requiresAuthority = false)]
     public void UpdateProgress()
     {
+        Debug.Log("Client updating progress...");
+
+        CheckpointsReached += 1;
+
         TotalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
         int playerID = GetComponent<NetworkInfo>().PlayerID;
         if (playerID == 1)
         {
-            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player1Progress = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+            Debug.Log("Player1 updating progress..." + CheckpointsReached.ToString());
+            GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<DisplayStats>().PlayerProgress = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
         } else if (playerID == 2)
         {
-            GameObject.FindGameObjectWithTag("UIMain").GetComponent<DisplayStats>().Player2Progress = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+            Debug.Log("Player2 updating progress..." + CheckpointsReached.ToString());
+            GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<DisplayStats>().PlayerProgress = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
         }
     }
 

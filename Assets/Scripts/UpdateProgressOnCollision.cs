@@ -13,7 +13,6 @@ public class UpdateProgressOnCollision : MonoBehaviour
         
     }
 
-
     void OnTriggerEnter(Collider other)
     {
         if (Reached)
@@ -21,9 +20,9 @@ public class UpdateProgressOnCollision : MonoBehaviour
             return;
         }
         GameObject player = other.transform.root.gameObject;
-        if (player.tag == "Player")
+        if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer)
         {
-            player.GetComponent<UpdateStats>().CheckpointsReached += 1;
+            Debug.Log("checkpoint triggered");
             Reached = true;
             player.GetComponent<UpdateStats>().UpdateProgress();
         }
