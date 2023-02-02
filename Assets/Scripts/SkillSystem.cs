@@ -15,36 +15,40 @@ public class SkillSystem : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-        GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+        if (isLocalPlayer)
+        {
+            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
 
-        OriginalMaxSpeed = GetComponent<PrometeoCarController>().maxSpeed;
-        OriginalAccelMultiplier = GetComponent<PrometeoCarController>().accelerationMultiplier;
+            OriginalMaxSpeed = GetComponent<PrometeoCarController>().maxSpeed;
+            OriginalAccelMultiplier = GetComponent<PrometeoCarController>().accelerationMultiplier;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null)
+        if (isLocalPlayer)
         {
-            ReleaseSkill(MySkills[0]);
-            MySkills[0] = null;
+            Debug.Log(GetComponent<PrometeoCarController>().maxSpeed);
+            if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null)
+            {
+                ReleaseSkill(MySkills[0]);
+                MySkills[0] = null;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && MySkills[1] != null)
+            {
+                ReleaseSkill(MySkills[1]);
+                MySkills[1] = null;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && MySkills[2] != null)
+            {
+                ReleaseSkill(MySkills[2]);
+                MySkills[2] = null;
+            }
+            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && MySkills[1] != null)
-        {
-            ReleaseSkill(MySkills[1]);
-            MySkills[1] = null;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && MySkills[2] != null)
-        {
-            ReleaseSkill(MySkills[2]);
-            MySkills[2] = null;
-        }
-        string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-        GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
-
-        Debug.Log(GetComponent<PrometeoCarController>().accelerationMultiplier);
     }
 
     public void GetSkill(string skill)
@@ -74,11 +78,11 @@ public class SkillSystem : NetworkBehaviour
                 break;
             case "slow_opponent_down":
                 Debug.Log("Client: slow opponent down");
-                SpeedUp();
+                SlowOpponentDown();
                 break;
             case "invert_opponent_control":
                 Debug.Log("Client: invert opponent control");
-                SpeedUp();
+                InvertOpponnetCtrl();
                 break;
         }
     }
@@ -94,21 +98,83 @@ public class SkillSystem : NetworkBehaviour
 
     private IEnumerator SkillEffectTimeout()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
         GetComponent<PrometeoCarController>().maxSpeed = OriginalMaxSpeed;
         GetComponent<PrometeoCarController>().accelerationMultiplier = OriginalAccelMultiplier;
     }
 
 
-    [TargetRpc]
+
+    /// <summary>
+    /// SLOWING DOWN OPPONENT RELATED
+    /// </summary>
+    [Command(requiresAuthority = false)]
     private void SlowOpponentDown()
     {
-        return;
+        GameObject target = null;
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player != this)
+            {
+                target = player;
+            }
+        }
+        if (target == null)
+        {
+            Debug.Log("Opponent not found!");
+        }
+
+        target.GetComponent<PrometeoCarController>().maxSpeed = 50;
+        target.GetComponent<PrometeoCarController>().accelerationMultiplier = 2;
+
+        IEnumerator coroutine = OpponnetSlowDownEffectTimeout(target);
+        StartCoroutine(coroutine);
     }
 
-    [TargetRpc]
-    private void InvertOpponentControl()
+    private IEnumerator OpponnetSlowDownEffectTimeout(GameObject target)
     {
-        return;
+        yield return new WaitForSeconds(5.0f);
+        ChangeBackOpponentSpeed(target);
     }
+
+    [Command(requiresAuthority = false)]
+    private void ChangeBackOpponentSpeed(GameObject target)
+    {
+        target.GetComponent<PrometeoCarController>().maxSpeed = OriginalMaxSpeed;
+        target.GetComponent<PrometeoCarController>().accelerationMultiplier = OriginalAccelMultiplier;
+    }
+
+
+    /// <summary>
+    /// INVERTING OPPONENT CONTROL RELATED
+    /// </summary>
+    [TargetRpc]
+    [Command(requiresAuthority = false)]
+    private void InvertOpponnetCtrl()
+    {
+        GameObject target = null;
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player != this)
+            {
+                target = player;
+            }
+        }
+        if (target == null)
+        {
+            Debug.Log("Opponent not found!");
+        }
+
+        target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;
+
+        IEnumerator coroutine = InvertOpponnetCtrlEffectTimeout();
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator InvertOpponnetCtrlEffectTimeout()
+    {
+        yield return new WaitForSeconds(5.0f);
+        InvertOpponnetCtrl();
+    }
+
 }

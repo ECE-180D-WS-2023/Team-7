@@ -49,9 +49,9 @@ GameObject:
   - component: {fileID: -2860305743413798221}
   - component: {fileID: 627556911}
   - component: {fileID: 5886690192474179660}
-  - component: {fileID: -1565870642394240167}
   - component: {fileID: -7012021955273021103}
   - component: {fileID: 1800411820282014898}
+  - component: {fileID: 5424218282327968515}
   m_Layer: 0
   m_Name: Prometheus
   m_TagString: Player
@@ -206,24 +206,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &-1565870642394240167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642287924342879162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99917e2a704cb3b4a8764b2532a73d01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  Speed: 0
-  CheckpointsReached: 0
-  TotalCheckpoints: 0
 --- !u!114 &-7012021955273021103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +238,24 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &5424218282327968515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642287924342879162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99917e2a704cb3b4a8764b2532a73d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Speed: 0
+  CheckpointsReached: 0
+  TotalCheckpoints: 0
 --- !u!1 &934883528070179459
 GameObject:
   m_ObjectHideFlags: 0
