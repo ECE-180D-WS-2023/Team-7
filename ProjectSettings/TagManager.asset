@@ -13,6 +13,7 @@ TagManager:
   - UISkill
   - UIProgress1
   - UIProgress2
+  - UIMode
   layers:
   - Default
   - TransparentFX
