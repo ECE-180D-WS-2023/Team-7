@@ -30,18 +30,19 @@ public class SkillSystem : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            Debug.Log(GetComponent<PrometeoCarController>().maxSpeed);
-            if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null)
+            string playerMode = GetComponent<SwitchMode>().mode;
+
+            if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[0]);
                 MySkills[0] = null;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && MySkills[1] != null)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && MySkills[1] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[1]);
                 MySkills[1] = null;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && MySkills[2] != null)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && MySkills[2] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[2]);
                 MySkills[2] = null;
@@ -124,6 +125,11 @@ public class SkillSystem : NetworkBehaviour
             Debug.Log("Opponent not found!");
         }
 
+        if(target.GetComponent<SwitchMode>().mode == "Defense Mode")
+        {
+            return;
+        }
+
         target.GetComponent<PrometeoCarController>().maxSpeed = 50;
         target.GetComponent<PrometeoCarController>().accelerationMultiplier = 2;
 
@@ -163,6 +169,11 @@ public class SkillSystem : NetworkBehaviour
         if (target == null)
         {
             Debug.Log("Opponent not found!");
+        }
+
+        if (target.GetComponent<SwitchMode>().mode == "Defense Mode")
+        {
+            return;
         }
 
         target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;

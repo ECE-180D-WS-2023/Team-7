@@ -146,7 +146,7 @@ public class PrometeoCarController : NetworkBehaviour
     float localVelocityZ;
     float localVelocityX;
     bool deceleratingCar;
-    bool touchControlsSetup = false;
+    bool touchControlsSetup;
     /*
     The following variables are used to store information about sideways friction of the wheels (such as
     extremumSlip,extremumValue, asymptoteSlip, asymptoteValue and stiffness). We change this values to
