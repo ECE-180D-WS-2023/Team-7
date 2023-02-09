@@ -7,34 +7,14 @@ using TMPro;
 public class SwitchMode : NetworkBehaviour
 {
 
+    [SyncVar]
     public string mode = "Attack Mode";
 
     // Start is called before the first frame update
-    void Start()
+
+    [Command(requiresAuthority = false)]
+    public void changeMode(string newMode)
     {
-        
+        mode = newMode;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isLocalPlayer)
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                if (mode == "Attack Mode")
-                {
-                    mode = "Defense Mode";
-                }
-                else
-                {
-                    mode = "Attack Mode";
-                }
-
-                GameObject.FindGameObjectWithTag("UIMode").GetComponent<TMP_Text>().text = mode;
-            }
-        }
-
-    }
-
 }
