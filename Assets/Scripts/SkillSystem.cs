@@ -28,6 +28,7 @@ public class SkillSystem : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // THIS SECTION WILL BE DEPRECATED AFTER MQTT INTEGRATION
         if (isLocalPlayer)
         {
             string playerMode = GetComponent<SwitchMode>().mode;
@@ -51,6 +52,34 @@ public class SkillSystem : NetworkBehaviour
             GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
         }
     }
+
+
+    public void SelectSkill(int selection)
+    {
+        if (isLocalPlayer)
+        {
+            string playerMode = GetComponent<SwitchMode>().mode;
+
+            if (selection == 1 && MySkills[0] != null && playerMode == "Attack Mode")
+            {
+                ReleaseSkill(MySkills[0]);
+                MySkills[0] = null;
+            }
+            if (selection == 2 && MySkills[1] != null && playerMode == "Attack Mode")
+            {
+                ReleaseSkill(MySkills[1]);
+                MySkills[1] = null;
+            }
+            if (selection == 3 && MySkills[2] != null && playerMode == "Attack Mode")
+            {
+                ReleaseSkill(MySkills[2]);
+                MySkills[2] = null;
+            }
+            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+        }
+    }
+
 
     public void GetSkill(string skill)
     {
@@ -115,7 +144,9 @@ public class SkillSystem : NetworkBehaviour
         GameObject target = null;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if (player != this)
+            int networkId = player.GetComponent<NetworkInfo>().PlayerID;
+            Debug.Log(networkId);
+            if (networkId != GetComponent<NetworkInfo>().PlayerID )
             {
                 target = player;
             }
@@ -123,6 +154,7 @@ public class SkillSystem : NetworkBehaviour
         if (target == null)
         {
             Debug.Log("Opponent not found!");
+            return;
         }
 
         if(target.GetComponent<SwitchMode>().mode == "Defense Mode")
@@ -161,7 +193,9 @@ public class SkillSystem : NetworkBehaviour
         GameObject target = null;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            if (player != this)
+            int networkId = player.GetComponent<NetworkInfo>().PlayerID;
+            Debug.Log(networkId);
+            if (networkId != GetComponent<NetworkInfo>().PlayerID)
             {
                 target = player;
             }
@@ -169,6 +203,7 @@ public class SkillSystem : NetworkBehaviour
         if (target == null)
         {
             Debug.Log("Opponent not found!");
+            return;
         }
 
         if (target.GetComponent<SwitchMode>().mode == "Defense Mode")
