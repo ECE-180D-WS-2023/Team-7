@@ -159,7 +159,7 @@ MonoBehaviour:
   maxSpeed: 100
   maxReverseSpeed: 45
   accelerationMultiplier: 5
-  maxSteeringAngle: 35
+  maxSteeringAngle: 40
   steeringSpeed: 0.5
   brakeForce: 450
   decelerationMultiplier: 2
@@ -183,16 +183,12 @@ MonoBehaviour:
   useSounds: 1
   carEngineSound: {fileID: 5264262601827462882}
   tireScreechSound: {fileID: 682341158643262358}
-  useTouchControls: 0
-  throttleButton: {fileID: 0}
-  reverseButton: {fileID: 0}
-  turnRightButton: {fileID: 0}
-  turnLeftButton: {fileID: 0}
-  handbrakeButton: {fileID: 0}
   carSpeed: 0
   isDrifting: 0
   isTractionLocked: 0
   SteeringInverter: 1
+  UsingIMUInput: 0
+  DeadZone: 5
 --- !u!114 &5886690192474179660
 MonoBehaviour:
   m_ObjectHideFlags: 0
