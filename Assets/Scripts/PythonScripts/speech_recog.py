@@ -26,13 +26,13 @@ def callback(recognizer, audio):
         output = None
         for transcript_dict in res_dict['alternative']:
             if '1' in transcript_dict['transcript'] or 'one' in transcript_dict['transcript']:
-                output = '1'
+                output = 'skill 1'
                 break
             elif '2' in transcript_dict['transcript'] or 'two' in transcript_dict['transcript']:
-                output = '2'
+                output = 'skill 2'
                 break
             elif '3' in transcript_dict['transcript'] or 'three' in transcript_dict['transcript']:
-                output = '3'
+                output = 'skill 3'
                 break
         if output != None:
             client.publish(topic, output, qos=1)

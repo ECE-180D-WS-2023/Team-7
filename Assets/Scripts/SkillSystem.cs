@@ -54,23 +54,23 @@ public class SkillSystem : NetworkBehaviour
     }
 
 
-    public void SelectSkill(int selection)
+    public void SelectSkill(string selection)
     {
         if (isLocalPlayer)
         {
             string playerMode = GetComponent<SwitchMode>().mode;
 
-            if (selection == 1 && MySkills[0] != null && playerMode == "Attack Mode")
+            if (selection == "skill 1" && MySkills[0] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[0]);
                 MySkills[0] = null;
             }
-            if (selection == 2 && MySkills[1] != null && playerMode == "Attack Mode")
+            if (selection == "skill 2" && MySkills[1] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[1]);
                 MySkills[1] = null;
             }
-            if (selection == 3 && MySkills[2] != null && playerMode == "Attack Mode")
+            if (selection == "skill 3" && MySkills[2] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[2]);
                 MySkills[2] = null;
