@@ -1,40 +1,15 @@
 // Jillian Pantig
 // MQTT Code is provided to us in 180DA Lab 4 Prompt
 // IMU Code is mostly taken from ICM 20948 Arduino Library Demo with modification
-
+// modify and tested vertified by Alex on Feb 15th
 
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "arduino_secrets.h"
+#include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
 
-/************************  START MQTT VARIABLES ************************/
-
-// WiFi
-const char *ssid = ""; // Enter your WiFi name
-const char *password = "";  // Enter WiFi password
-
-// MQTT Broker
-// const char *mqtt_broker = "broker.emqx.io";
-// const char *topic = "ece180d/test";
-// const char *mqtt_username = "emqx";
-// const char *mqtt_password = "public";
-// const int mqtt_port = 1883;
-
-// MQTT Broker
-const char *mqtt_broker = "mqtt.eclipseprojects.io";
-const char *topic = "ece180d/team7/steering";
-// const char *mqtt_username = "emqx";
-// const char *mqtt_password = "public";
-const int mqtt_port = 1883;
-
-WiFiClient espClient;
-PubSubClient client(espClient);
-
-/************************  END MQTT VARIABLES ************************/
 
 /************************  START IMU VARIABLES ************************/
-
-#include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
 
 #define SERIAL_PORT Serial
 
@@ -47,6 +22,26 @@ PubSubClient client(espClient);
 ICM_20948_I2C myICM; // Otherwise create an ICM_20948_I2C object
 
 /************************  END IMU VARIABLES ************************/
+
+
+/************************  START MQTT VARIABLES ************************/
+
+// WiFi
+const char *ssid = SECRET_SSID; // Enter your WiFi name
+const char *password = SECRET_PASS;  // Enter WiFi password
+
+
+// MQTT Broker
+const char *mqtt_broker = "mqtt.eclipseprojects.io";
+const char *topic = "ece180d/team7/steering";
+const int mqtt_port = 1883;
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+/************************  END MQTT VARIABLES ************************/
+
+
 
 void setup()
 {
@@ -218,8 +213,11 @@ void loop()
 
             SERIAL_PORT.print(F(" Steering Angle:"));
             SERIAL_PORT.println(pitch, 1);
-
-            client.publish(topic, pitch);
+//modify by Alex, successfully print the steering angle to a python though terminal
+// delay 0.5 to mqtt
+            char pitch_data[10];
+            snprintf(pitch_data, 10, "%f", pitch); 
+            client.publish(topic, pitch_data);
             client.loop();
             delay(500);
         }
