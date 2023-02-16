@@ -33,7 +33,7 @@ public class PrometeoCarController : NetworkBehaviour
     public int accelerationMultiplier = 2; // How fast the car can accelerate. 1 is a slow acceleration and 10 is the fastest.
     [Space(10)]
     [Range(10, 45)]
-    public int maxSteeringAngle = 27; // The maximum angle that the tires can reach while rotating the steering wheel.
+    public int maxSteeringAngle = 40; // The maximum angle that the tires can reach while rotating the steering wheel.
     [Range(0.1f, 1f)]
     public float steeringSpeed = 0.5f; // How fast the steering wheel turns.
     [Space(10)]
@@ -107,23 +107,6 @@ public class PrometeoCarController : NetworkBehaviour
     public AudioSource tireScreechSound; // This variable stores the sound of the tire screech (when the car is drifting).
     float initialCarEngineSoundPitch; // Used to store the initial pitch of the car engine sound.
 
-    //CONTROLS
-
-    [Space(20)]
-    //[Header("CONTROLS")]
-    [Space(10)]
-    //The following variables lets you to set up touch controls for mobile devices.
-    public bool useTouchControls = false;
-    public GameObject throttleButton;
-    PrometeoTouchInput throttlePTI;
-    public GameObject reverseButton;
-    PrometeoTouchInput reversePTI;
-    public GameObject turnRightButton;
-    PrometeoTouchInput turnRightPTI;
-    public GameObject turnLeftButton;
-    PrometeoTouchInput turnLeftPTI;
-    public GameObject handbrakeButton;
-    PrometeoTouchInput handbrakePTI;
 
     //CAR DATA
 
@@ -164,6 +147,10 @@ public class PrometeoCarController : NetworkBehaviour
 
     [SyncVar]
     public int SteeringInverter = 1;
+
+    public bool UsingIMUInput = false;
+
+    public int DeadZone = 5;
 
 
     // Start is called before the first frame update
@@ -266,29 +253,6 @@ public class PrometeoCarController : NetworkBehaviour
                     RRWTireSkid.emitting = false;
                 }
             }
-
-            if (useTouchControls)
-            {
-                if (throttleButton != null && reverseButton != null &&
-                turnRightButton != null && turnLeftButton != null
-                && handbrakeButton != null)
-                {
-
-                    throttlePTI = throttleButton.GetComponent<PrometeoTouchInput>();
-                    reversePTI = reverseButton.GetComponent<PrometeoTouchInput>();
-                    turnLeftPTI = turnLeftButton.GetComponent<PrometeoTouchInput>();
-                    turnRightPTI = turnRightButton.GetComponent<PrometeoTouchInput>();
-                    handbrakePTI = handbrakeButton.GetComponent<PrometeoTouchInput>();
-                    touchControlsSetup = true;
-
-                }
-                else
-                {
-                    String ex = "Touch controls are not completely set up. You must drag and drop your scene buttons in the" +
-                    " PrometeoCarController component.";
-                    Debug.LogWarning(ex);
-                }
-            }
         }
 
     }
@@ -335,29 +299,37 @@ public class PrometeoCarController : NetworkBehaviour
                 deceleratingCar = false;
                 GoReverse();
             }
+            if (!UsingIMUInput)
+            {
+                if (Input.GetKey(KeyCode.A))
+                {
+                    if (SteeringInverter == 1)
+                    {
+                        TurnLeft();
+                    }
+                    else
+                    {
+                        TurnRight();
+                    }
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                if (SteeringInverter == 1)
-                {
-                    TurnLeft();
-                } else
-                {
-                    TurnRight();
                 }
-                
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                if (SteeringInverter == 1)
+                if (Input.GetKey(KeyCode.D))
                 {
-                    TurnRight();
+                    if (SteeringInverter == 1)
+                    {
+                        TurnRight();
+                    }
+                    else
+                    {
+                        TurnLeft();
+                    }
                 }
-                else
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && steeringAxis != 0f)
                 {
-                    TurnLeft();
+                    ResetSteeringAngle();
                 }
             }
+            
             if (Input.GetKey(KeyCode.Space))
             {
                 CancelInvoke("DecelerateCar");
@@ -376,10 +348,6 @@ public class PrometeoCarController : NetworkBehaviour
             {
                 InvokeRepeating("DecelerateCar", 0f, 0.1f);
                 deceleratingCar = true;
-            }
-            if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && steeringAxis != 0f)
-            {
-                ResetSteeringAngle();
             }
 
 
@@ -472,6 +440,21 @@ public class PrometeoCarController : NetworkBehaviour
         frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
     }
 
+    public void TurnLeftIMU(int IMUSteeringAngle)
+    {
+        if (IMUSteeringAngle > -DeadZone)
+        {
+            IMUSteeringAngle = 0;
+        }
+        if (IMUSteeringAngle < (-maxSteeringAngle))
+        {
+            IMUSteeringAngle = (-maxSteeringAngle);
+        }
+        IMUSteeringAngle *= SteeringInverter;
+        frontLeftCollider.steerAngle = IMUSteeringAngle;
+        frontRightCollider.steerAngle = IMUSteeringAngle;
+    }
+
     //The following method turns the front car wheels to the right. The speed of this movement will depend on the steeringSpeed variable.
     public void TurnRight()
     {
@@ -483,6 +466,21 @@ public class PrometeoCarController : NetworkBehaviour
         var steeringAngle = steeringAxis * maxSteeringAngle;
         frontLeftCollider.steerAngle = Mathf.Lerp(frontLeftCollider.steerAngle, steeringAngle, steeringSpeed);
         frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
+    }
+
+    public void TurnRightIMU(int IMUSteeringAngle)
+    {
+        if (IMUSteeringAngle < DeadZone)
+        {
+            IMUSteeringAngle = 0;
+        }
+        if (IMUSteeringAngle > maxSteeringAngle)
+        {
+            IMUSteeringAngle = maxSteeringAngle;
+        }
+        IMUSteeringAngle *= SteeringInverter;
+        frontLeftCollider.steerAngle = IMUSteeringAngle;
+        frontRightCollider.steerAngle = IMUSteeringAngle;
     }
 
     //The following method takes the front car wheels to their default position (rotation = 0). The speed of this movement will depend
