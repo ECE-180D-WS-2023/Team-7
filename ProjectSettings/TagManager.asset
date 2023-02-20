@@ -14,6 +14,9 @@ TagManager:
   - UIProgress1
   - UIProgress2
   - UIMode
+  - StartLine
+  - GameManager
+  - Status
   layers:
   - Default
   - TransparentFX
