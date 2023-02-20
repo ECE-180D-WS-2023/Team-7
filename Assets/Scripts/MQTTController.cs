@@ -18,7 +18,7 @@ public class MQTTController : MonoBehaviour
 
     private void OnMessageArrivedHandler(string newMsg)
     {
-        Debug.Log("Event Fired. The message, from Object " + nameController + " is = " + newMsg);
+        // Debug.Log("Event Fired. The message, from Object " + nameController + " is = " + newMsg);
 
         if (playerToControl == null)
         {
