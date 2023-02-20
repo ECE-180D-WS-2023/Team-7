@@ -1,0 +1,183 @@
+
+ Steering Angle:-22.6
+100508.2 Pa
+100.5141 kPa
+ Steering Angle:-23.0
+100505.5 Pa
+100.5117 kPa
+ Steering Angle:-22.9
+100506.8 Pa
+100.5070 kPa
+ Steering Angle:-22.8
+100494.6 Pa
+100.5028 kPa
+ Steering Angle:-22.8
+100487.2 Pa
+100.4970 kPa
+ Steering Angle:-23.0
+100490.1 Pa
+100.4889 kPa
+ Steering Angle:-22.9
+100496.2 Pa
+100.4909 kPa
+ Steering Angle:-23.0
+100486.0 Pa
+100.4924 kPa
+ Steering Angle:-22.9
+100476.1 Pa
+100.4985 kPa
+ Steering Angle:-22.8
+100492.3 Pa
+100.5026 kPa
+ Steering Angle:-22.8
+100483.0 Pa
+100.4869 kPa
+ Steering Angle:-22.8
+100474.6 Pa
+100.4961 kPa
+ Steering Angle:-22.7
+100537.9 Pa
+100.5438 kPa
+ Steering Angle:-22.7
+100535.5 Pa
+100.5482 kPa
+ Steering Angle:-22.5
+100652.5 Pa
+100.6612 kPa
+ Steering Angle:-22.5
+101026.6 Pa
+101.0366 kPa
+ Steering Angle:-22.5
+103284.2 Pa
+103.2902 kPa
+ Steering Angle:-22.5
+103281.2 Pa
+103.2945 kPa
+ Steering Angle:-22.5
+102969.9 Pa
+102.9831 kPa
+ Steering Angle:-22.5
+102845.1 Pa
+102.8418 kPa
+ Steering Angle:-22.5
+102880.7 Pa
+102.8949 kPa
+ Steering Angle:-22.5
+102653.8 Pa
+102.6540 kPa
+ Steering Angle:-22.6
+102675.1 Pa
+102.6951 kPa
+ Steering Angle:-22.6
+103157.7 Pa
+103.1585 kPa
+ Steering Angle:-22.6
+103136.7 Pa
+103.1290 kPa
+ Steering Angle:-22.6
+102854.3 Pa
+102.8622 kPa
+ Steering Angle:-22.6
+102716.8 Pa
+102.7255 kPa
+ Steering Angle:-22.6
+102543.6 Pa
+102.5521 kPa
+ Steering Angle:-22.6
+102492.0 Pa
+102.5092 kPa
+ Steering Angle:-22.6
+102329.7 Pa
+102.3339 kPa
+ Steering Angle:-22.6
+102138.5 Pa
+102.1422 kPa
+ Steering Angle:-22.6
+102069.1 Pa
+102.0704 kPa
+ Steering Angle:-22.6
+101896.5 Pa
+101.9136 kPa
+ Steering Angle:-22.6
+101861.4 Pa
+101.8696 kPa
+ Steering Angle:-22.6
+101838.9 Pa
+101.8435 kPa
+ Steering Angle:-22.6
+102316.6 Pa
+102.3421 kPa
+ Steering Angle:-22.6
+102492.8 Pa
+102.4871 kPa
+ Steering Angle:-22.6
+101936.2 Pa
+101.9350 kPa
+ Steering Angle:-22.6
+101801.6 Pa
+101.8037 kPa
+ Steering Angle:-22.6
+101710.1 Pa
+101.7085 kPa
+ Steering Angle:-22.6
+101560.4 Pa
+101.5825 kPa
+ Steering Angle:-22.6
+101618.2 Pa
+101.6144 kPa
+ Steering Angle:-22.6
+102207.7 Pa
+102.2148 kPa
+ Steering Angle:-22.6
+102344.2 Pa
+102.3433 kPa
+ Steering Angle:-22.6
+101905.3 Pa
+101.8977 kPa
+ Steering Angle:-22.6
+101696.7 Pa
+101.7018 kPa
+ Steering Angle:-22.6
+101439.4 Pa
+101.4407 kPa
+ Steering Angle:-22.6
+101088.4 Pa
+101.0928 kPa
+ Steering Angle:-22.6
+100906.8 Pa
+100.9276 kPa
+ Steering Angle:-22.5
+100989.5 Pa
+100.9787 kPa
+ Steering Angle:-22.5
+101013.8 Pa
+101.0184 kPa
+ Steering Angle:-22.5
+101844.4 Pa
+101.8564 kPa
+ Steering Angle:-22.6
+102082.2 Pa
+102.0970 kPa
+ Steering Angle:-22.6
+101893.8 Pa
+101.8975 kPa
+ Steering Angle:-22.6
+101816.5 Pa
+101.7999 kPa
+ Steering Angle:-22.6
+101683.5 Pa
+101.7003 kPa
+ Steering Angle:-22.6
+101729.2 Pa
+101.7438 kPa
+ Steering Angle:-22.6
+101703.8 Pa
+101.7053 kPa
+ Steering Angle:-22.6
+102139.5 Pa
+102.1371 kPa
+ Steering Angle:-22.6
+102116.6 Pa
+102.1161 kPa
+Observation: the staic pressure in air pressure system be 100400-100600,no lager than 100700 pa, when we pressure the bottle in the air system, we have around 102000-103000 pa, no less than 101800 pa.
+It just the preliminary general observation.
