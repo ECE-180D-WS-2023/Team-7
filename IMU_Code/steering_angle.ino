@@ -24,9 +24,11 @@
  * Distributed as-is; no warranty is given.
  * 
  * Modified by Jillian Pantig for ECE 180D - Systems Design Capstone
+ *The senser print version update -Alex
  ***************************************************************/
 
 #include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
+#include <SparkFun_MicroPressure.h>
 
 #define SERIAL_PORT Serial
 
@@ -37,12 +39,16 @@
 #define AD0_VAL 1
 
 ICM_20948_I2C myICM; // Otherwise create an ICM_20948_I2C object
+SparkFun_MicroPressure mpr; // Use default values with reset and EOC pins unused
+double pitch = 0.0;
 
 void setup()
 {
-
+  Serial.begin(115200);
+  Wire.begin();
   SERIAL_PORT.begin(115200); // Start the serial console
   SERIAL_PORT.println(F("ICM-20948 Example"));
+
 
   delay(100);
 
@@ -121,10 +127,23 @@ void setup()
     while (1)
       ; // Do nothing more
   }
+
+   if(!mpr.begin())
+  {
+    Serial.println("Cannot connect to MicroPressure sensor.");
+    while(1);
+  }
+
+
 }
+
+
+
 
 void loop()
 {
+
+  
   // Read any DMP data waiting in the FIFO
   // Note:
   //    readDMPdataFromFIFO will return ICM_20948_Stat_FIFONoDataAvail if no data is available.
@@ -167,11 +186,20 @@ void loop()
       double t2 = +2.0 * (q0 * q2 - q3 * q1);
       t2 = t2 > 1.0 ? 1.0 : t2;
       t2 = t2 < -1.0 ? -1.0 : t2;
-      double pitch = asin(t2) * 180.0 / PI;
+      pitch = asin(t2) * 180.0 / PI;
 
-      SERIAL_PORT.print(F(" Steering Angle:"));
-      SERIAL_PORT.println(pitch, 1);
     }
+  if (! isnan(pitch)) {
+            SERIAL_PORT.print(F(" Steering Angle:"));
+            SERIAL_PORT.println(pitch, 1);
+            Serial.print(mpr.readPressure(PA),1);
+            Serial.println(" Pa");
+            Serial.print(mpr.readPressure(KPA),4);
+            Serial.println(" kPa");
+      }
+      
+       delay(1000);    
+      
   }
 
   if (myICM.status != ICM_20948_Stat_FIFOMoreDataAvail) // If more data is available then we should read it right away - and not delay
