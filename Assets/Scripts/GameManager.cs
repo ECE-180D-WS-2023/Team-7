@@ -49,11 +49,6 @@ public class GameManager : NetworkBehaviour
             }
 
         } 
-        else if (!GameStarted && PlayersJoined != NumberOfPlayers)
-        {
-            // Waiting
-            GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "Waiting for opponent...";
-        } 
 
     }
 

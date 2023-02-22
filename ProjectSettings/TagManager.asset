@@ -17,6 +17,7 @@ TagManager:
   - StartLine
   - GameManager
   - Status
+  - TutorialHint
   layers:
   - Default
   - TransparentFX
