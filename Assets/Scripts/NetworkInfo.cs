@@ -16,7 +16,6 @@ public class NetworkInfo : NetworkBehaviour
         if (isLocalPlayer)
         {
             GetSelfPlayerID();
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().OnPlayerJoining();
         }
     }
 

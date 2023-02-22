@@ -264,6 +264,20 @@ public class PrometeoCarController : NetworkBehaviour
         if (isLocalPlayer)
         {
 
+            // Backdoor for testing
+            if (Input.GetKey(KeyCode.T))
+            {
+                transform.position = new Vector3(0, 0, 0);
+                if (GetComponent<NetworkInfo>().PlayerID == 1)
+                {
+                    transform.position = new Vector3(0, 1, 35);
+                }
+                else
+                {
+                    transform.position = new Vector3(10, 1, 35);
+                }
+            }
+
             //CAR DATA
 
             // We determine the speed of the car.
@@ -885,4 +899,20 @@ public class PrometeoCarController : NetworkBehaviour
         }
     }
 
+
+    public void moveToStartPosition()
+    {
+        if (isLocalPlayer)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            if (GetComponent<NetworkInfo>().PlayerID == 1)
+            {
+                transform.position = new Vector3(0, 0.5f, 35);
+            }
+            else
+            {
+                transform.position = new Vector3(10, 0.5f, 35);
+            }
+        }
+    }
 }
