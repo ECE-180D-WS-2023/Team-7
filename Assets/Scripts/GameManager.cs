@@ -40,16 +40,24 @@ public class GameManager : NetworkBehaviour
                 GameStarted = true;
                 GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "GO!";
 
-                foreach(GameObject StartBoundingBox in GameObject.FindGameObjectsWithTag("StartLine"))
-                {
-                    Destroy(StartBoundingBox);
-                }
-                IEnumerator coroutine = CountDownFade();
-                StartCoroutine(coroutine);
+                RemoveBoundingBox();
             }
 
         } 
 
+    }
+
+    [ClientRpc]
+    private void RemoveBoundingBox()
+    {
+        GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "GO!";
+
+        foreach (GameObject StartBoundingBox in GameObject.FindGameObjectsWithTag("StartLine"))
+        {
+            Destroy(StartBoundingBox);
+        }
+        IEnumerator coroutine = CountDownFade();
+        StartCoroutine(coroutine);
     }
 
 
