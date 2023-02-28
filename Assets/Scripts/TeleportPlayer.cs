@@ -8,7 +8,7 @@ public class TeleportPlayer : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject player = other.transform.root.gameObject;
-        if (player.tag == "Player")
+        if (player.tag == "Player" && player.GetComponent<NetworkInfo>().isLocalPlayer)
         {
             player.GetComponent<PrometeoCarController>().moveToStartPosition();
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().OnPlayerJoining();

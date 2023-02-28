@@ -10,6 +10,8 @@ public class UpdateStats : NetworkBehaviour
     public int Speed = 0;
     public int CheckpointsReached = 0;
     public int TotalCheckpoints = 0;
+    private bool IsWinner = false;
+    private bool UIDestroyed = false;
 
     private void UpdateSpeed()
     {
@@ -39,7 +41,30 @@ public class UpdateStats : NetworkBehaviour
         }
     }
 
+    public bool CheckIfIsWinner()
+    {
+        if (IsWinner)
+        {
+            return true;
+        }
 
+        int playerID = GetComponent<NetworkInfo>().PlayerID;
+        string player1Stats = GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<DisplayStats>().PlayerProgress;
+        string player2Stats = GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<DisplayStats>().PlayerProgress;
+
+        if (playerID == 1 && player1Stats == "Player1: 5/5" && player2Stats != "Player2: 5/5")
+        {
+            IsWinner = true;
+            return true;
+        }
+        if (playerID == 2 && player1Stats == "Player2: 5/5" && player2Stats != "Player1: 5/5")
+        {
+            IsWinner = true;
+            return true;
+        }
+
+        return false;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -48,6 +73,12 @@ public class UpdateStats : NetworkBehaviour
         {
             Speed = (int)GetComponent<PrometeoCarController>().carSpeed;
             UpdateSpeed();
+        } else if (isLocalPlayer == false && UIDestroyed == false)
+        {
+            Destroy(transform.Find("UI").Find("Speedometer").gameObject);
+            Destroy(transform.Find("UI").Find("ModeIndicator").gameObject);
+            Destroy(transform.Find("UI"));
+            UIDestroyed = true;
         }
     }
 }

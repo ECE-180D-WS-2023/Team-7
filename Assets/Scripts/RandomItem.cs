@@ -10,11 +10,7 @@ public class RandomItem : MonoBehaviour
     // THIS LIST SHOULD BE EXPANDED ON NEED
     private string[] Skills = new string[3]{"speed_up", "slow_opponent_down", "invert_opponent_control"};
 
-// Start is called before the first frame update
-void Start()
-    {
-        
-    }
+    public AudioSource OnHit = null;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -32,7 +28,19 @@ void Start()
             if (player.tag == "Player")
             {
                 player.GetComponent<SkillSystem>().GetSkill(Skills[rnd]);
+                DestroySelf(player);
             }
+        }
+    }
+
+    private void DestroySelf(GameObject player)
+    {
+        if (player.GetComponent<NetworkInfo>().isLocalPlayer)
+        {
+            OnHit.Play();
+
+            Destroy(transform.Find("Cube").gameObject);
+            Destroy(this);
         }
     }
 }

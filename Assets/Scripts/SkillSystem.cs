@@ -186,7 +186,6 @@ public class SkillSystem : NetworkBehaviour
     /// <summary>
     /// INVERTING OPPONENT CONTROL RELATED
     /// </summary>
-    [TargetRpc]
     [Command(requiresAuthority = false)]
     private void InvertOpponnetCtrl()
     {
