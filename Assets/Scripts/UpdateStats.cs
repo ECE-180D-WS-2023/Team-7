@@ -13,7 +13,9 @@ public class UpdateStats : NetworkBehaviour
 
     private void UpdateSpeed()
     {
-       GameObject.FindGameObjectWithTag("UISpeed").GetComponent<TMP_Text>().text = "Speed: " + Speed.ToString() + "km/h";
+        // GameObject.FindGameObjectWithTag("UISpeed").GetComponent<TMP_Text>().text = "Speed: " + Speed.ToString() + "km/h";
+
+        transform.Find("UI").Find("Speedometer").gameObject.GetComponent<TMP_Text>().text = Speed.ToString() + "km/h";
     }
 
 

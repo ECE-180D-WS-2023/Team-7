@@ -28,7 +28,8 @@ public class MQTTController : MonoBehaviour
             if (newMsg == "Attack Mode" || newMsg == "Defense Mode")
             {
                 playerToControl.GetComponent<SwitchMode>().changeMode(newMsg);
-                GameObject.FindGameObjectWithTag("UIMode").GetComponent<TMP_Text>().text = newMsg;
+                // GameObject.FindGameObjectWithTag("UIMode").GetComponent<TMP_Text>().text = newMsg;
+                playerToControl.GetComponent<SwitchMode>().changeModeUI(newMsg);
             }
             if (newMsg == "skill 1" || newMsg == "skill 2" || newMsg == "skill 3")
             {
