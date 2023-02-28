@@ -17,4 +17,12 @@ public class SwitchMode : NetworkBehaviour
     {
         mode = newMode;
     }
+
+    public void changeModeUI(string newMode)
+    {
+        if (isLocalPlayer)
+        {
+            transform.Find("UI").Find("ModeIndicator").gameObject.GetComponent<TMP_Text>().text = newMode;
+        }
+    }
 }

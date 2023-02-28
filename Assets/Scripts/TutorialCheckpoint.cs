@@ -5,14 +5,17 @@ using Mirror;
 
 public class TutorialCheckpoint : MonoBehaviour
 {
-
+    public Material material = null;
     public int CheckPointNumber = 0;
+
+
     private void OnTriggerEnter(Collider other)
     {
         GameObject player = other.transform.root.gameObject;
         if (player.tag == "Player" && player.GetComponent<NetworkBehaviour>().isLocalPlayer)
         {
             player.GetComponent<CarUIController>().AfterReachingCheckpoint(CheckPointNumber);
+            GetComponent<MeshRenderer>().material = material;
             IEnumerator coroutine = RemoveBoundary();
             StartCoroutine(coroutine);
         }

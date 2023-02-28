@@ -6,12 +6,8 @@ public class UpdateProgressOnCollision : MonoBehaviour
 {
     
     private bool Reached = false;
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-    }
+    public Material Material = null;
+    public AudioSource OnReached = null;
 
     void OnTriggerEnter(Collider other)
     {
@@ -25,6 +21,9 @@ public class UpdateProgressOnCollision : MonoBehaviour
             Debug.Log("checkpoint triggered");
             Reached = true;
             player.GetComponent<UpdateStats>().UpdateProgress();
+            GetComponent<MeshRenderer>().material = Material;
+
+            OnReached.Play();
         }
     }
 }

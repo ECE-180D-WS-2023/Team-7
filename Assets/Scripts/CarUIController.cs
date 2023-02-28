@@ -32,6 +32,8 @@ public class CarUIController : NetworkBehaviour
         {
             yield return new WaitForSeconds(2.0f);
             GameObject.FindGameObjectWithTag("TutorialHint").GetComponent<TMP_Text>().text = "Welcome!\n Try to steer by the obstacles and reach the first checkpoint!";
+            yield return new WaitForSeconds(4.0f);
+            GameObject.FindGameObjectWithTag("TutorialHint").GetComponent<TMP_Text>().text = "";
         }
         else if (num == 1)
         {
