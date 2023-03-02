@@ -10,7 +10,8 @@ public class TeleportPlayer : MonoBehaviour
         GameObject player = other.transform.root.gameObject;
         if (player.tag == "Player" && player.GetComponent<NetworkInfo>().isLocalPlayer)
         {
-            player.GetComponent<PrometeoCarController>().moveToStartPosition();
+            player.GetComponent<PrometeoCarController>().MoveToStartPosition();
+            player.GetComponent<CarUIController>().DeleteTutorialUIPanel();
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().OnPlayerJoining();
         }
     }

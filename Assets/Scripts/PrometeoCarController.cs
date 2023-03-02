@@ -900,7 +900,7 @@ public class PrometeoCarController : NetworkBehaviour
     }
 
 
-    public void moveToStartPosition()
+    public void MoveToStartPosition()
     {
         if (isLocalPlayer)
         {
