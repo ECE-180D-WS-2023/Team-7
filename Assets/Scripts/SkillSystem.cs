@@ -212,14 +212,14 @@ public class SkillSystem : NetworkBehaviour
 
         target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;
 
-        IEnumerator coroutine = InvertOpponnetCtrlEffectTimeout();
+        IEnumerator coroutine = InvertOpponnetCtrlEffectTimeout(target);
         StartCoroutine(coroutine);
     }
 
-    private IEnumerator InvertOpponnetCtrlEffectTimeout()
+    private IEnumerator InvertOpponnetCtrlEffectTimeout(GameObject target)
     {
         yield return new WaitForSeconds(5.0f);
-        InvertOpponnetCtrl();
+        target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;
     }
 
 }

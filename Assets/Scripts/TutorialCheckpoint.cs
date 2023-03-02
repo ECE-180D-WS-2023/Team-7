@@ -16,14 +16,21 @@ public class TutorialCheckpoint : MonoBehaviour
         {
             player.GetComponent<CarUIController>().AfterReachingCheckpoint(CheckPointNumber);
             GetComponent<MeshRenderer>().material = material;
-            IEnumerator coroutine = RemoveBoundary();
+            IEnumerator coroutine = RemoveBoundary(CheckPointNumber);
             StartCoroutine(coroutine);
         }
     }
 
-    private IEnumerator RemoveBoundary()
+    private IEnumerator RemoveBoundary(int id)
     {
-        yield return new WaitForSeconds(15f);
+        if(id == 1)
+        {
+            yield return new WaitForSeconds(20f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(14f);
+        }
         GameObject Boundary = transform.Find("Plane").gameObject;
         Destroy(Boundary);
     }
