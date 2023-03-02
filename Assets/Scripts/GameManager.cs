@@ -41,6 +41,9 @@ public class GameManager : NetworkBehaviour
                 GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "GO!";
 
                 RemoveBoundingBox();
+
+                RecursivelyDestoryGameObject(GameObject.FindGameObjectWithTag("TutorialSpace").transform);
+
             }
 
         } 
@@ -73,4 +76,13 @@ public class GameManager : NetworkBehaviour
         GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "";
     }
 
+
+    private void RecursivelyDestoryGameObject(Transform target)
+    {
+        foreach (Transform child in target)
+        {
+            RecursivelyDestoryGameObject(child);
+        }
+        Destroy(target.gameObject);
+    }
 }

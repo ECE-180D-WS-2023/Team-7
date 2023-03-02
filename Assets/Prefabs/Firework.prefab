@@ -282,7 +282,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.8495531, b: 0.5235849, a: 1}
+      maxColor: {r: 1, g: 0.92148757, b: 0.75, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3871,9 +3871,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 1
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 0.5
+    light: {fileID: 2333792205323061215, guid: 157fbe20994e64140a4a3a43e3f7c8d8, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -3934,7 +3934,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
