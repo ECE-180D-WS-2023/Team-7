@@ -263,8 +263,6 @@ public class PrometeoCarController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            Debug.Log(maxSpeed);
-            Debug.Log(accelerationMultiplier);
 
             // Backdoor for testing
             if (Input.GetKey(KeyCode.T))
