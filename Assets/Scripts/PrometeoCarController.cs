@@ -263,6 +263,8 @@ public class PrometeoCarController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
+            Debug.Log(maxSpeed);
+            Debug.Log(accelerationMultiplier);
 
             // Backdoor for testing
             if (Input.GetKey(KeyCode.T))
@@ -270,11 +272,11 @@ public class PrometeoCarController : NetworkBehaviour
                 transform.position = new Vector3(0, 0, 0);
                 if (GetComponent<NetworkInfo>().PlayerID == 1)
                 {
-                    transform.position = new Vector3(0, 1, 35);
+                    transform.position = new Vector3(0, 1, 45);
                 }
                 else
                 {
-                    transform.position = new Vector3(10, 1, 35);
+                    transform.position = new Vector3(10, 1, 45);
                 }
             }
 
