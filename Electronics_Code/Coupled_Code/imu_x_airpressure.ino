@@ -24,7 +24,7 @@
  * Distributed as-is; no warranty is given.
  * 
  * Modified by Jillian Pantig for ECE 180D - Systems Design Capstone
- *The senser print version update -Alex
+ * The sensor print version update -Alex
  ***************************************************************/
 
 #include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
