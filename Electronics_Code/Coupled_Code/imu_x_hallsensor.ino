@@ -1,35 +1,23 @@
-// Jillian Pantig
-// IMU Code is mostly taken from ICM 20948 Arduino Library Demo with modification
 
 #include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
 
-#define SERIAL_PORT Serial
-
 #define WIRE_PORT Wire // Your desired Wire port.
-
-// The value of the last bit of the I2C address.
-// On the SparkFun 9DoF IMU breakout the default is 1, and when the ADR jumper is closed the value becomes 0
+#define SERIAL_PORT Serial
 #define AD0_VAL 1
+#define Throttle_Sensor A0 
 
 ICM_20948_I2C myICM; // Otherwise create an ICM_20948_I2C object
-
-
-/************************  START HALL SENSOR VARIABLES ************************/
-
-#define Throttle_Sensor A0
+double pitch = 0.0;
 int throttle_extract = 0;
 
-/************************  END HALL SENSOR VARIABLES ************************/
+
 
 void setup()
 {
-
-  SERIAL_PORT.begin(115200); // Start the serial console
-  SERIAL_PORT.println(F("ICM-20948 Example"));
-
-  delay(100);
-
+  SERIAL_PORT.begin(115200); 
   pinMode(Throttle_Sensor, INPUT);
+  Serial.begin(115200);
+  delay(100);
 
   while (SERIAL_PORT.available()) // Make sure the serial RX buffer is empty
     SERIAL_PORT.read();
@@ -106,10 +94,15 @@ void setup()
     while (1)
       ; // Do nothing more
   }
+
 }
+
+
+
 
 void loop()
 {
+
   icm_20948_DMP_data_t data;
   myICM.readDMPdataFromFIFO(&data);
 
@@ -118,7 +111,7 @@ void loop()
 
     if ((data.header & DMP_header_bitmap_Quat6) > 0) // We have asked for GRV data so we should receive Quat6
     {
-      // Scale to +/- 1
+     
       double q1 = ((double)data.Quat6.Data.Q1) / 1073741824.0; // Convert to double. Divide by 2^30
       double q2 = ((double)data.Quat6.Data.Q2) / 1073741824.0; // Convert to double. Divide by 2^30
       double q3 = ((double)data.Quat6.Data.Q3) / 1073741824.0; // Convert to double. Divide by 2^30
@@ -129,25 +122,29 @@ void loop()
       double q0 = sqrt(1.0 - ((q1 * q1) + (q2 * q2) + (q3 * q3)));
 
       double q2sqr = q2 * q2;
-
-      // Pitch (y-axis rotation)
       double t2 = +2.0 * (q0 * q2 - q3 * q1);
       t2 = t2 > 1.0 ? 1.0 : t2;
       t2 = t2 < -1.0 ? -1.0 : t2;
-      double pitch = asin(t2) * 180.0 / PI;
+      pitch = asin(t2) * 180.0 / PI;
 
-      SERIAL_PORT.print(F(" Steering Angle:"));
-      SERIAL_PORT.println(pitch, 1);
     }
+  if (! isnan(pitch)) {
+            SERIAL_PORT.print(F(" Steering Angle:"));
+            SERIAL_PORT.println(pitch, 1);
+            
+            throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
+            int throttle = map(throttle_extract, 2690, 8191, 0, 100);
+            float throttle_float = (float)throttle/100;
+            Serial.println(throttle_float);
+
+      }
+      
+       delay(1000);    
+      
   }
 
   if (myICM.status != ICM_20948_Stat_FIFOMoreDataAvail) // If more data is available then we should read it right away - and not delay
   {
     delay(10);
   }
-
-  throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
-  int throttle = map(throttle_extract, 2690, 8191, 0, 100);
-  float throttle_float = (float)throttle/100;
-  Serial.println(throttle_float);
 }
