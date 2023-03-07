@@ -14,7 +14,7 @@ public class InitializeMQTT : MonoBehaviour
             return;
         }
         GameObject player = other.transform.root.gameObject;
-        if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer)
+        if (player.tag == "Player" && player.GetComponent<NetworkInfo>().isLocalPlayer)
         {
             Debug.Log("MQTT initializing...");
             GetComponent<MQTTController>().playerToControl = player;

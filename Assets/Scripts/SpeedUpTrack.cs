@@ -8,7 +8,6 @@ public class SpeedUpTrack : MonoBehaviour
     public Vector2 Direction = new Vector2(0, 1);  // The direction of the movement
 
     private Material Material;  // The material of the game object
-    private int OriginalAccelMultiplier;
 
     void Start()
     {
@@ -33,7 +32,6 @@ public class SpeedUpTrack : MonoBehaviour
         GameObject player = other.transform.root.gameObject;
         if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer)
         {
-            OriginalAccelMultiplier = player.GetComponent<PrometeoCarController>().accelerationMultiplier;
             player.GetComponent<PrometeoCarController>().maxSpeed = 180;
             player.GetComponent<PrometeoCarController>().accelerationMultiplier = 15;
 
@@ -45,7 +43,7 @@ public class SpeedUpTrack : MonoBehaviour
     private IEnumerator SpeedUpTimeout(GameObject player)
     {
         yield return new WaitForSeconds(1.0f);
-        player.GetComponent<PrometeoCarController>().maxSpeed = 100;
-        player.GetComponent<PrometeoCarController>().accelerationMultiplier = OriginalAccelMultiplier;
+        player.GetComponent<PrometeoCarController>().maxSpeed = player.GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+        player.GetComponent<PrometeoCarController>().accelerationMultiplier = player.GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
     }
 }
