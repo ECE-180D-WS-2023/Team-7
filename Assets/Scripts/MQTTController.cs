@@ -20,10 +20,7 @@ public class MQTTController : MonoBehaviour
     {
         // Debug.Log("Event Fired. The message, from Object " + nameController + " is = " + newMsg);
 
-        if (playerToControl == null)
-        {
-            Debug.LogError("MQTT initialized but player not set (FATAL)");
-        } else
+        if (playerToControl != null)
         {
             if (newMsg == "Attack Mode" || newMsg == "Defense Mode")
             {
@@ -35,12 +32,14 @@ public class MQTTController : MonoBehaviour
             {
                 playerToControl.GetComponent<SkillSystem>().SelectSkill(newMsg);
             }
-            else // steering info
+            else // steering info & accel info
             {
                 if (playerToControl.GetComponent<PrometeoCarController>().UsingIMUInput && playerToControl.GetComponent<PrometeoCarController>().isLocalPlayer)
                 {
-                    int angle = Int32.Parse(newMsg);
-                    Debug.Log(angle);
+                    string[] dataString = newMsg.Split(',');
+                    int angle = Int32.Parse(dataString[0]);
+                    float throttle = Single.Parse(dataString[1]);
+
                     if (angle > 0)
                     {
                         playerToControl.GetComponent<PrometeoCarController>().TurnRightIMU(angle);
@@ -49,6 +48,9 @@ public class MQTTController : MonoBehaviour
                     {
                         playerToControl.GetComponent<PrometeoCarController>().TurnLeftIMU(angle);
                     }
+
+                    playerToControl.GetComponent<PrometeoCarController>().GoForwardIMU(throttle);
+
                 }
             }
         }

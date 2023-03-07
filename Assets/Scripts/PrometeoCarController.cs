@@ -49,6 +49,10 @@ public class PrometeoCarController : NetworkBehaviour
                                    // however, you must notice that the higher this value is, the more unstable the car becomes.
                                    // Usually the y value goes from 0 to 1.5.
 
+    public int OriginalMaxSpeed { get; set; }
+    public int OriginalAccelerationMultiplier { get; set; }
+
+
     //WHEELS
 
     //[Header("WHEELS")]
@@ -156,6 +160,10 @@ public class PrometeoCarController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        OriginalAccelerationMultiplier = accelerationMultiplier;
+        OriginalMaxSpeed = maxSpeed;
+
         if (isLocalPlayer)
         {
 
@@ -301,20 +309,20 @@ public class PrometeoCarController : NetworkBehaviour
             */
             
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                CancelInvoke("DecelerateCar");
-                deceleratingCar = false;
-                GoForward();
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                CancelInvoke("DecelerateCar");
-                deceleratingCar = false;
-                GoReverse();
-            }
             if (!UsingIMUInput)
             {
+                if (Input.GetKey(KeyCode.W))
+                {
+                    CancelInvoke("DecelerateCar");
+                    deceleratingCar = false;
+                    GoForward();
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    CancelInvoke("DecelerateCar");
+                    deceleratingCar = false;
+                    GoReverse();
+                }
                 if (Input.GetKey(KeyCode.A))
                 {
                     if (SteeringInverter == 1)
@@ -342,27 +350,27 @@ public class PrometeoCarController : NetworkBehaviour
                 {
                     ResetSteeringAngle();
                 }
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    CancelInvoke("DecelerateCar");
+                    deceleratingCar = false;
+                    Handbrake();
+                }
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    RecoverTraction();
+                }
+                if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)))
+                {
+                    ThrottleOff();
+                }
+                if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)) && !Input.GetKey(KeyCode.Space) && !deceleratingCar)
+                {
+                    InvokeRepeating("DecelerateCar", 0f, 0.1f);
+                    deceleratingCar = true;
+                }
             }
             
-            if (Input.GetKey(KeyCode.Space))
-            {
-                CancelInvoke("DecelerateCar");
-                deceleratingCar = false;
-                Handbrake();
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                RecoverTraction();
-            }
-            if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)))
-            {
-                ThrottleOff();
-            }
-            if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)) && !Input.GetKey(KeyCode.Space) && !deceleratingCar)
-            {
-                InvokeRepeating("DecelerateCar", 0f, 0.1f);
-                deceleratingCar = true;
-            }
 
 
 
@@ -604,6 +612,45 @@ public class PrometeoCarController : NetworkBehaviour
                 // If the maxSpeed has been reached, then stop applying torque to the wheels.
                 // IMPORTANT: The maxSpeed variable should be considered as an approximation; the speed of the car
                 // could be a bit higher than expected.
+                frontLeftCollider.motorTorque = 0;
+                frontRightCollider.motorTorque = 0;
+                rearLeftCollider.motorTorque = 0;
+                rearRightCollider.motorTorque = 0;
+            }
+        }
+    }
+
+    public void GoForwardIMU(float throttle)
+    {
+        if (Mathf.Abs(localVelocityX) > 2.5f)
+        {
+            isDrifting = true;
+            DriftCarPS();
+        }
+        else
+        {
+            isDrifting = false;
+            DriftCarPS();
+        }
+        if (localVelocityZ < -1f)
+        {
+            Brakes();
+        }
+        else
+        {
+            if (Mathf.RoundToInt(carSpeed) < maxSpeed)
+            {
+                frontLeftCollider.brakeTorque = 0;
+                frontLeftCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                frontRightCollider.brakeTorque = 0;
+                frontRightCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                rearLeftCollider.brakeTorque = 0;
+                rearLeftCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                rearRightCollider.brakeTorque = 0;
+                rearRightCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+            }
+            else
+            {
                 frontLeftCollider.motorTorque = 0;
                 frontRightCollider.motorTorque = 0;
                 rearLeftCollider.motorTorque = 0;

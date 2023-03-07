@@ -9,9 +9,6 @@ public class SkillSystem : NetworkBehaviour
 
     private string[] MySkills = new string[3] { null, null, null };
 
-    private int OriginalMaxSpeed;
-    private int OriginalAccelMultiplier;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +16,6 @@ public class SkillSystem : NetworkBehaviour
         {
             string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
             GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
-
-            OriginalMaxSpeed = GetComponent<PrometeoCarController>().maxSpeed;
-            OriginalAccelMultiplier = GetComponent<PrometeoCarController>().accelerationMultiplier;
         }
     }
 
@@ -129,8 +123,8 @@ public class SkillSystem : NetworkBehaviour
     private IEnumerator SkillEffectTimeout()
     {
         yield return new WaitForSeconds(5.0f);
-        GetComponent<PrometeoCarController>().maxSpeed = OriginalMaxSpeed;
-        GetComponent<PrometeoCarController>().accelerationMultiplier = OriginalAccelMultiplier;
+        GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+        GetComponent<PrometeoCarController>().accelerationMultiplier = GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
     }
 
 
@@ -178,8 +172,8 @@ public class SkillSystem : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void ChangeBackOpponentSpeed(GameObject target)
     {
-        target.GetComponent<PrometeoCarController>().maxSpeed = OriginalMaxSpeed;
-        target.GetComponent<PrometeoCarController>().accelerationMultiplier = OriginalAccelMultiplier;
+        target.GetComponent<PrometeoCarController>().maxSpeed = target.GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+        target.GetComponent<PrometeoCarController>().accelerationMultiplier = target.GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
     }
 
 
