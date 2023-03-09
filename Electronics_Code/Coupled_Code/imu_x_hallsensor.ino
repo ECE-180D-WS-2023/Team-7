@@ -133,9 +133,19 @@ void loop()
             SERIAL_PORT.println(pitch, 1);
             
             throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
-            int throttle = map(throttle_extract, 2690, 8191, 0, 100);
-            float throttle_float = (float)throttle/100;
-            Serial.println(throttle_float);
+            if ((throttle_extract >=1720) && (throttle_extract<=7000))
+
+            {
+              int throttle = map(throttle_extract, 1720, 7000, 0, 50);
+              float throttle_float = (float)throttle/100;
+              Serial.println(throttle_float);
+            }
+            else if ( (throttle_extract>7000) && (throttle_extract<=8191))
+            {
+              int throttle = map(throttle_extract, 7000, 8191, 50, 100);
+              float throttle_float = (float)throttle/100; 
+              Serial.println(throttle_float);
+            }
 
       }
       
