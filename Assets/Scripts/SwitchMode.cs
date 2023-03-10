@@ -7,10 +7,37 @@ using TMPro;
 public class SwitchMode : NetworkBehaviour
 {
 
-    [SyncVar]
+    [SyncVar(hook = nameof(changeModeUI))]
     public string mode = "Attack Mode";
 
-    // Start is called before the first frame update
+    private void Start()
+    {
+        transform.Find("Shield").gameObject.SetActive(false);
+    }
+
+    private void FixedUpdate()
+    {
+        if(isLocalPlayer && Input.GetKeyDown(KeyCode.M))
+        {
+            if(mode == "Attack Mode")
+            {
+                changeMode("Defense Mode");
+            }
+            else
+            {
+                changeMode("Attack Mode");
+            }
+        }
+        if (mode == "Attack Mode")
+        {
+            transform.Find("Shield").gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.Find("Shield").gameObject.SetActive(true);
+        }
+    }
+
 
     [Command(requiresAuthority = false)]
     public void changeMode(string newMode)
@@ -18,11 +45,11 @@ public class SwitchMode : NetworkBehaviour
         mode = newMode;
     }
 
-    public void changeModeUI(string newMode)
+    public void changeModeUI(string oldStr, string newStr)
     {
         if (isLocalPlayer)
         {
-            transform.Find("UI").Find("ModeIndicator").gameObject.GetComponent<TMP_Text>().text = newMode;
+            transform.Find("UI").Find("ModeIndicator").gameObject.GetComponent<TMP_Text>().text = newStr;
         }
     }
 }
