@@ -26,7 +26,7 @@ public class MQTTController : MonoBehaviour
             {
                 playerToControl.GetComponent<SwitchMode>().changeMode(newMsg);
                 // GameObject.FindGameObjectWithTag("UIMode").GetComponent<TMP_Text>().text = newMsg;
-                playerToControl.GetComponent<SwitchMode>().changeModeUI(newMsg);
+                // playerToControl.GetComponent<SwitchMode>().changeModeUI(newMsg);
             }
             if (newMsg == "skill 1" || newMsg == "skill 2" || newMsg == "skill 3")
             {
