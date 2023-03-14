@@ -12,12 +12,22 @@ public class UpdateStats : NetworkBehaviour
     public int TotalCheckpoints = 0;
     private bool IsWinner = false;
     private bool UIDestroyed = false;
+    private float LapTime = 0.0f;
 
     private void UpdateSpeed()
     {
-        // GameObject.FindGameObjectWithTag("UISpeed").GetComponent<TMP_Text>().text = "Speed: " + Speed.ToString() + "km/h";
 
         transform.Find("UI").Find("Speedometer").gameObject.GetComponent<TMP_Text>().text = Speed.ToString() + "km/h";
+    }
+
+    private void UpdateTime()
+    {
+        string time = string.Format("{0:0}:{1:00}.{2:0}",
+                        Mathf.Floor(LapTime / 60),
+                        Mathf.Floor(LapTime) % 60,
+                        Mathf.Floor((LapTime * 10) % 10));
+
+        transform.Find("UI").Find("Timer").gameObject.GetComponent<TMP_Text>().text = "Lap: " + time + "s";
     }
 
 
@@ -73,6 +83,12 @@ public class UpdateStats : NetworkBehaviour
         {
             Speed = (int)GetComponent<PrometeoCarController>().carSpeed;
             UpdateSpeed();
+
+            if (GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GameStarted && !IsWinner)
+            {
+                LapTime += Time.deltaTime;
+            }
+            UpdateTime();
         } else if (isLocalPlayer == false && UIDestroyed == false)
         {
             Destroy(transform.Find("UI").Find("Speedometer").gameObject);
