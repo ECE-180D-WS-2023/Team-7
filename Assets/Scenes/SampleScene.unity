@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 944497764}
-  m_IndirectSpecularColor: {r: 0.20194596, g: 0.2701472, b: 0.38371652, a: 1}
+  m_IndirectSpecularColor: {r: 0.20194682, g: 0.2701478, b: 0.38371676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5396,8 +5396,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294953922
-  m_fontColor: {r: 0.759434, g: 0.79418236, b: 1, a: 1}
+    rgba: 4294960609
+  m_fontColor: {r: 0.8820755, g: 0.8994742, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5450,7 +5450,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 591.575, y: -114.163574, z: 68.49805, w: 56.043938}
+  m_margin: {x: 612.52747, y: -90.54796, z: 68.49805, w: 37.46708}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6011,6 +6011,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   NumberOfPlayers: 1
+  GameStarted: 0
 --- !u!4 &442470983
 Transform:
   m_ObjectHideFlags: 0

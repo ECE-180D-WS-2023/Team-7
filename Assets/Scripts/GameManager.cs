@@ -14,7 +14,7 @@ public class GameManager : NetworkBehaviour
     private int PlayersJoined = 0;
 
     [SyncVar]
-    private bool GameStarted = false;
+    public bool GameStarted = false;
 
     private float CountDown = 6;
 
