@@ -714,6 +714,47 @@ public class PrometeoCarController : NetworkBehaviour
         }
     }
 
+
+    public void GoReverseIMU(float throttle)
+    {
+        if (Mathf.Abs(localVelocityX) > 2.5f)
+        {
+            isDrifting = true;
+            DriftCarPS();
+        }
+        else
+        {
+            isDrifting = false;
+            DriftCarPS();
+        }
+        if (localVelocityZ > 1f)
+        {
+            Brakes();
+        }
+        else
+        {
+            if (Mathf.Abs(Mathf.RoundToInt(carSpeed)) < maxReverseSpeed)
+            {
+                frontLeftCollider.brakeTorque = 0;
+                frontLeftCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                frontRightCollider.brakeTorque = 0;
+                frontRightCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                rearLeftCollider.brakeTorque = 0;
+                rearLeftCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+                rearRightCollider.brakeTorque = 0;
+                rearRightCollider.motorTorque = (accelerationMultiplier * 50f) * throttle;
+            }
+            else
+            {
+                frontLeftCollider.motorTorque = 0;
+                frontRightCollider.motorTorque = 0;
+                rearLeftCollider.motorTorque = 0;
+                rearRightCollider.motorTorque = 0;
+            }
+        }
+    }
+
+
     //The following function set the motor torque to 0 (in case the user is not pressing either W or S).
     public void ThrottleOff()
     {
