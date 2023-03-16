@@ -49,7 +49,18 @@ public class MQTTController : MonoBehaviour
                         playerToControl.GetComponent<PrometeoCarController>().TurnLeftIMU(angle);
                     }
 
-                    playerToControl.GetComponent<PrometeoCarController>().GoForwardIMU(throttle);
+                    if (throttle > 0.05f)
+                    {
+                        playerToControl.GetComponent<PrometeoCarController>().GoForwardIMU(throttle);
+                    }
+                    else if (throttle < -0.05f)
+                    {
+                        playerToControl.GetComponent<PrometeoCarController>().GoReverseIMU(throttle);
+                    }
+                    else
+                    {
+                        playerToControl.GetComponent<PrometeoCarController>().ThrottleOff();
+                    }
 
                 }
             }
