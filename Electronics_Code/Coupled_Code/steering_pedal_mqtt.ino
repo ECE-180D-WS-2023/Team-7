@@ -19,6 +19,8 @@ double pitch = 0.0;
 int throttle_extract = 0;
 int throttle = 0;
 float throttle_float = 0.0;
+
+bool DEBUG = false;
 /************************  END IMU and PEDAl VARIABLES ************************/
 
 /************************  START MQTT VARIABLES ************************/
@@ -52,7 +54,6 @@ void setup()
     Serial.println("Connected to the WiFi network");
     //connecting to a mqtt broker
     client.setServer(mqtt_broker, mqtt_port);
-    client.setCallback(callback);
     while (!client.connected()) {
         String client_id = "esp32-client-";
         client_id += String(WiFi.macAddress());
@@ -143,16 +144,6 @@ void setup()
   
 }
 
-void callback(char *topic, byte *payload, unsigned int length) {
-  Serial.print("Message arrived in topic: ");
-  Serial.println(topic);
-  Serial.print("Message:");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char) payload[i]);
-  }
-  Serial.println();
-  Serial.println("-----------------------");
-}
 
 void loop()
 {
@@ -184,27 +175,31 @@ void loop()
             if ((throttle_extract >=1720) && (throttle_extract<=7000))
 
             {
-              throttle = map(throttle_extract, 1720, 7000, 0, 50);
+              throttle = map(throttle_extract, 2500, 7000, 0, 50);
               throttle_float = (float)throttle/100;
             }
-            else if ( (throttle_extract>7000) && (throttle_extract<=8191))
+            else if ( (throttle_extract>7000) && (throttle_extract<=9000))
             {
-              throttle = map(throttle_extract, 7000, 8191, 50, 100);
-              throttle_float = (float)throttle/100; 
+              throttle = map(throttle_extract, 7000, 8000, 50, 100);
+              throttle_float = min((float)throttle/100, 1.0f); 
             }
            
-            if (! isnan(pitch)) {
-            SERIAL_PORT.print(F(" Steering Angle:"));
-            SERIAL_PORT.println(pitch, 1);
-            Serial.println(throttle_float);
+            if (isnan(pitch)){
+                pitch = 0;
+            }
+
+            if (DEBUG){
+                SERIAL_PORT.print(F(" Steering Angle:"));
+                SERIAL_PORT.println(pitch, 1);
+                Serial.println(throttle_float);
+            }
      
             char drive_data[9];
             snprintf(drive_data, 9, "%d,%.2f", int(pitch) , throttle_float); 
             client.publish(topic, drive_data);
             client.loop();
 
-            delay(300); // 0.3s is smooth enough
-            }
+            delay(50); // 0.3s is smooth enough
         }
     }
 
