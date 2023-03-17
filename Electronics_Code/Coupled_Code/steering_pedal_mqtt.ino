@@ -11,6 +11,7 @@
 #define WIRE_PORT Wire // Your desired Wire port.
 #define AD0_VAL 1
 #define Throttle_Sensor A0 
+#define FORWARD_B 11
 
 ICM_20948_I2C myICM; // Otherwise create an ICM_20948_I2C object
 
@@ -19,14 +20,14 @@ double pitch = 0.0;
 int throttle_extract = 0;
 int throttle = 0;
 float throttle_float = 0.0;
-
+int MODE = 1;
 bool DEBUG = false;
 /************************  END IMU and PEDAl VARIABLES ************************/
 
 /************************  START MQTT VARIABLES ************************/
 // WiFi
-const char *ssid = "Alex4nd3r"; // Enter your WiFi name lemur
-const char *password = "3104867361";  // Enter WiFi password lemur9473
+const char *ssid = ""; // Enter your WiFi name lemur
+const char *password = "";  // Enter WiFi password lemur9473
 
 // MQTT Broker
 const char *mqtt_broker = "mqtt.eclipseprojects.io";
@@ -42,9 +43,9 @@ PubSubClient client(espClient);
 void setup()
 {
   SERIAL_PORT.begin(115200); 
-  pinMode(Throttle_Sensor, INPUT);
   Serial.begin(115200);
-
+  pinMode(Throttle_Sensor, INPUT);
+  pinMode(FORWARD_B, INPUT_PULLUP);
     // Connecting to a WiFi network
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -170,18 +171,22 @@ void loop()
             t2 = t2 < -1.0 ? -1.0 : t2;           
             pitch = asin(t2) * 180.0 / PI;
 
-            
-            throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
-            if ((throttle_extract >=1720) && (throttle_extract<=7000))
+            if(digitalRead(FORWARD_B) == 0)
+            {
+                MODE = MODE * -1;
+            }
 
+            throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
+
+            if ((throttle_extract >=1720) && (throttle_extract<=7000))
             {
               throttle = map(throttle_extract, 2500, 7000, 0, 50);
-              throttle_float = (float)throttle/100;
+              throttle_float = (float)MODE * (float)throttle/100;
             }
             else if ( (throttle_extract>7000) && (throttle_extract<=9000))
             {
               throttle = map(throttle_extract, 7000, 8000, 50, 100);
-              throttle_float = min((float)throttle/100, 1.0f); 
+              throttle_float = (float)MODE * min((float)throttle/100, 1.0f); 
             }
            
             if (isnan(pitch)){
@@ -194,12 +199,13 @@ void loop()
                 Serial.println(throttle_float);
             }
      
-            char drive_data[9];
-            snprintf(drive_data, 9, "%d,%.2f", int(pitch) , throttle_float); 
+            char drive_data[10];
+            snprintf(drive_data, 10, "%d,%.2f", int(pitch) , throttle_float); 
             client.publish(topic, drive_data);
             client.loop();
 
-            delay(50); // 0.3s is smooth enough
+// 0.3s is smooth enough
+            delay(50); 
         }
     }
 
