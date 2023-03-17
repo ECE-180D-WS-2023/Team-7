@@ -120,8 +120,9 @@ void setup()
 
     // Enable the DMP Game Rotation Vector sensor
     success &= (myICM.enableDMPSensor(INV_ICM20948_SENSOR_GAME_ROTATION_VECTOR) == ICM_20948_Stat_Ok);
-
-    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 0) == ICM_20948_Stat_Ok); // Set to the maximum
+    
+    // Change sampling rate !!FIFO SHOULD NOT BE FILLED UP
+    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 20) == ICM_20948_Stat_Ok); 
 
     // Enable the FIFO
     success &= (myICM.enableFIFO() == ICM_20948_Stat_Ok);
