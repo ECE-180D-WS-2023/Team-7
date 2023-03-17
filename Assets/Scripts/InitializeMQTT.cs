@@ -20,6 +20,8 @@ public class InitializeMQTT : MonoBehaviour
             GetComponent<MQTTController>().playerToControl = player;
             GetComponent<MQTTController>()._eventSender.topicSubscribe = "ECE180D/team7/" + player.GetComponent<NetworkInfo>().PlayerID.ToString();
             //GetComponent<MQTTController>()._eventSender.Connect();
+            IEnumerator coroutine = AsyncConnect();
+            StartCoroutine(coroutine);
         }
     }
 
