@@ -25,6 +25,8 @@ float throttle_float = 0.0;
 int MSG_INTERVAL = 30;
 int COUNTER = 0;
 
+char MSG[10];
+
 bool DEBUG = false;
 /************************  END IMU and PEDAl VARIABLES ************************/
 
@@ -201,9 +203,8 @@ void loop()
             }
 
             if (COUNTER % MSG_INTERVAL == 0){
-                char drive_data[10];
-                snprintf(drive_data, 10, "%d,%.2f", int(pitch) , throttle_float); 
-                client.publish(topic, drive_data);
+                snprintf(MSG, 10, "%d,%.2f", int(pitch) , throttle_float); 
+                client.publish(topic, MSG);
                 client.loop();
 
                 COUNTER = 0;
