@@ -20,7 +20,13 @@ double pitch = 0.0;
 int throttle_extract = 0;
 int throttle = 0;
 float throttle_float = 0.0;
-int MODE = 1;
+
+// THIS IS SUBJECT TO CHANGE
+int MSG_INTERVAL = 30;
+int COUNTER = 0;
+
+char MSG[10];
+
 bool DEBUG = false;
 /************************  END IMU and PEDAl VARIABLES ************************/
 
@@ -114,8 +120,9 @@ void setup()
 
     // Enable the DMP Game Rotation Vector sensor
     success &= (myICM.enableDMPSensor(INV_ICM20948_SENSOR_GAME_ROTATION_VECTOR) == ICM_20948_Stat_Ok);
-
-    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 0) == ICM_20948_Stat_Ok); // Set to the maximum
+    
+    // Change sampling rate !!FIFO SHOULD NOT BE FILLED UP
+    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 20) == ICM_20948_Stat_Ok); 
 
     // Enable the FIFO
     success &= (myICM.enableFIFO() == ICM_20948_Stat_Ok);
@@ -171,22 +178,19 @@ void loop()
             t2 = t2 < -1.0 ? -1.0 : t2;           
             pitch = asin(t2) * 180.0 / PI;
 
-            if(digitalRead(FORWARD_B) == 0)
-            {
-                MODE = MODE * -1;
-            }
+            float is_forward = digitalRead(FORWARD_B)?1:-1;
 
             throttle_extract = analogRead(Throttle_Sensor); // read the analog Throttle input
 
             if ((throttle_extract >=1720) && (throttle_extract<=7000))
             {
               throttle = map(throttle_extract, 2500, 7000, 0, 50);
-              throttle_float = (float)MODE * (float)throttle/100;
+              throttle_float = is_forward * (float)throttle/100;
             }
             else if ( (throttle_extract>7000) && (throttle_extract<=9000))
             {
               throttle = map(throttle_extract, 7000, 8000, 50, 100);
-              throttle_float = (float)MODE * min((float)throttle/100, 1.0f); 
+              throttle_float = is_forward * min((float)throttle/100, 1.0f); 
             }
            
             if (isnan(pitch)){
@@ -198,14 +202,21 @@ void loop()
                 SERIAL_PORT.println(pitch, 1);
                 Serial.println(throttle_float);
             }
-     
-            char drive_data[10];
-            snprintf(drive_data, 10, "%d,%.2f", int(pitch) , throttle_float); 
-            client.publish(topic, drive_data);
-            client.loop();
 
-// 0.3s is smooth enough
-            delay(50); 
+            if (COUNTER % MSG_INTERVAL == 0){
+                snprintf(MSG, 10, "%d,%.2f", int(pitch) , throttle_float); 
+                client.publish(topic, MSG);
+                client.loop();
+
+                COUNTER = 0;
+            }
+            else
+            {
+                COUNTER ++;
+            }
+
+            // delay blocks the entire loop, omitted
+            // delay(50); 
         }
     }
 
