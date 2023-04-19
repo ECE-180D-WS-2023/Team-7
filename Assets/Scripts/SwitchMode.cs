@@ -10,6 +10,8 @@ public class SwitchMode : NetworkBehaviour
     [SyncVar(hook = nameof(changeModeUI))]
     public string mode = "Attack Mode";
 
+    public AudioSource ShieldUp = null;
+
     private void Start()
     {
         transform.Find("Shield").gameObject.SetActive(false);
@@ -50,6 +52,11 @@ public class SwitchMode : NetworkBehaviour
         if (isLocalPlayer)
         {
             transform.Find("UI").Find("ModeIndicator").gameObject.GetComponent<TMP_Text>().text = newStr;
+
+            if (newStr == "Defense Mode")
+            {
+                ShieldUp.Play();
+            }
         }
     }
 }
