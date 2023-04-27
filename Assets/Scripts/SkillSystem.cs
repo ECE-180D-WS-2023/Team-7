@@ -9,6 +9,9 @@ public class SkillSystem : NetworkBehaviour
 
     private string[] MySkills = new string[3] { null, null, null };
 
+    public AudioSource SkillReleaseSuccess = null;
+    public AudioSource SkillReleaseFailure = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,16 +61,22 @@ public class SkillSystem : NetworkBehaviour
             {
                 ReleaseSkill(MySkills[0]);
                 MySkills[0] = null;
+                SkillReleaseSuccess.Play();
             }
-            if (selection == "skill 2" && MySkills[1] != null && playerMode == "Attack Mode")
+            else if (selection == "skill 2" && MySkills[1] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[1]);
                 MySkills[1] = null;
+                SkillReleaseSuccess.Play();
             }
-            if (selection == "skill 3" && MySkills[2] != null && playerMode == "Attack Mode")
+            else if (selection == "skill 3" && MySkills[2] != null && playerMode == "Attack Mode")
             {
                 ReleaseSkill(MySkills[2]);
                 MySkills[2] = null;
+                SkillReleaseSuccess.Play();
+            } else
+            {
+                SkillReleaseFailure.Play();
             }
             string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
             GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
