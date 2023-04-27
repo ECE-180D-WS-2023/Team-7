@@ -189,7 +189,7 @@ MonoBehaviour:
   RRWTireSkid: {fileID: 7045468751210077382}
   useUI: 0
   carSpeedText: {fileID: 0}
-  useSounds: 0
+  useSounds: 1
   carEngineSound: {fileID: 5264262601827462882}
   tireScreechSound: {fileID: 682341158643262358}
   carSpeed: 0
