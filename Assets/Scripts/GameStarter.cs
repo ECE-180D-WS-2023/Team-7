@@ -8,6 +8,7 @@ public class GameStarter : MonoBehaviour
 
     private GameObject UISystem = null;
     private NetworkManager Manager = null;
+    private bool Started = false;
 
     public enum Connection // your custom enumeration
     {
@@ -29,7 +30,7 @@ public class GameStarter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKey)
+        if (!Started && Input.anyKey)
         {
             UISystem.SetActive(true);
 
@@ -44,6 +45,8 @@ public class GameStarter : MonoBehaviour
             {
                 Manager.StartServer();
             }
+
+            Started = true;
         }
     }
 }
