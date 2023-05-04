@@ -22,6 +22,7 @@ TagManager:
   - TutorialSpace
   - TutorialPanel
   - NetworkManager
+  - TimeLeft
   layers:
   - Default
   - TransparentFX
