@@ -1,18 +1,23 @@
 
+
 // Uncomment 29th line in ICM_20948_C.h  to enable DMP support.
 
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "ICM_20948.h" // Click here to get the library: http://librarymanager/All#SparkFun_ICM_20948_IMU
+#include <Wire.h>
+#include <SparkFun_Alphanumeric_Display.h>  //Click here to get the library: http://librarymanager/All#SparkFun_Qwiic_Alphanumeric_Display by SparkFun
+
 
 /************************  START IMU and PEDAl VARIABLES ************************/
 
 #define SERIAL_PORT Serial
-#define WIRE_PORT Wire // Your desired Wire port.
 #define AD0_VAL 1
 #define Throttle_Sensor A0 
 #define FORWARD_B 11
+#define WIRE_PORT Wire // Your desired Wire port.
 
+HT16K33 display;
 ICM_20948_I2C myICM; // Otherwise create an ICM_20948_I2C object
 
 // declare globe variables
@@ -20,6 +25,7 @@ double pitch = 0.0;
 int throttle_extract = 0;
 int throttle = 0;
 float throttle_float = 0.0;
+
 
 // THIS IS SUBJECT TO CHANGE
 int MSG_INTERVAL = 30;
@@ -48,10 +54,11 @@ PubSubClient client(espClient);
 
 void setup()
 {
-  SERIAL_PORT.begin(115200); 
-  Serial.begin(115200);
-  pinMode(Throttle_Sensor, INPUT);
-  pinMode(FORWARD_B, INPUT_PULLUP);
+    SERIAL_PORT.begin(115200); 
+    Serial.begin(115200);
+    //Wire.begin();
+    pinMode(Throttle_Sensor, INPUT);
+    pinMode(FORWARD_B, INPUT_PULLUP);
     // Connecting to a WiFi network
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -149,7 +156,12 @@ void setup()
         ; // Do nothing more
     }
 
-  
+    if (display.begin() == false)
+    {
+      Serial.println("Device did not acknowledge! Freezing.");
+      while(1);
+    }
+    Serial.println("Display acknowledged.");
 }
 
 
@@ -192,6 +204,20 @@ void loop()
               throttle = map(throttle_extract, 7000, 8000, 50, 100);
               throttle_float = is_forward * min((float)throttle/100, 1.0f); 
             }
+            // // test display module
+            // int positive_angle = max(pitch,-pitch);
+            // int first;
+            // int second;
+            // if(positive_angle<0 || positive_angle>100){
+            //   first=0;
+            //   second=0;
+            // }
+            // else{
+            //   second = positive_angle%10;
+            //   first = (positive_angle - second)/10;
+            // }
+            // char first_char = first +'0';
+            // char second_char = second + '0';
            
             if (isnan(pitch)){
                 pitch = 0;
@@ -200,7 +226,7 @@ void loop()
             if (DEBUG){
                 SERIAL_PORT.print(F(" Steering Angle:"));
                 SERIAL_PORT.println(pitch, 1);
-                Serial.println(throttle_float);
+                SERIAL_PORT.println(throttle_float);
             }
 
             if (COUNTER % MSG_INTERVAL == 0){
@@ -209,6 +235,23 @@ void loop()
                 client.loop();
 
                 COUNTER = 0;
+
+                // Display system
+                display.clear();
+
+                if(is_forward == 1.0f){
+                  display.printChar('D', 0);
+                }
+                else{
+                  display.printChar('R', 0);
+                }
+
+                display.printChar('0'+(int)(throttle/100)%10, 1);
+                display.printChar('0'+(int)(throttle/10)%10, 2);
+                display.printChar('0'+(int)throttle%10, 3);
+                  
+                display.updateDisplay();
+
             }
             else
             {
