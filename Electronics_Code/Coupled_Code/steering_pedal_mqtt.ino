@@ -88,11 +88,6 @@ void setup()
     while (SERIAL_PORT.available()) // Make sure the serial RX buffer is empty
         SERIAL_PORT.read();
 
-    SERIAL_PORT.println(F("Press any key to continue..."));
-
-    while (!SERIAL_PORT.available()) // Wait for the user to press a key (send any serial character)
-        ;
-
     WIRE_PORT.begin();
     WIRE_PORT.setClock(400000);
 
@@ -189,6 +184,7 @@ void loop()
             t2 = t2 > 1.0 ? 1.0 : t2;
             t2 = t2 < -1.0 ? -1.0 : t2;           
             pitch = asin(t2) * 180.0 / PI;
+            pitch = 1 / 40.0 * pitch * pitch;
 
             float is_forward = digitalRead(FORWARD_B)?1:-1;
 
@@ -204,20 +200,6 @@ void loop()
               throttle = map(throttle_extract, 7000, 8000, 50, 100);
               throttle_float = is_forward * min((float)throttle/100, 1.0f); 
             }
-            // // test display module
-            // int positive_angle = max(pitch,-pitch);
-            // int first;
-            // int second;
-            // if(positive_angle<0 || positive_angle>100){
-            //   first=0;
-            //   second=0;
-            // }
-            // else{
-            //   second = positive_angle%10;
-            //   first = (positive_angle - second)/10;
-            // }
-            // char first_char = first +'0';
-            // char second_char = second + '0';
            
             if (isnan(pitch)){
                 pitch = 0;
