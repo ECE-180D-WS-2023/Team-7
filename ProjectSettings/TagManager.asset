@@ -23,6 +23,7 @@ TagManager:
   - TutorialPanel
   - NetworkManager
   - TimeLeft
+  - BGMManager
   layers:
   - Default
   - TransparentFX
