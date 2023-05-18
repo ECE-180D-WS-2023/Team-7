@@ -4,6 +4,10 @@ import argparse
 import signal
 import time
 
+skill_one_cloud = ["skill one", "skill 1", "skil one", "skil 1", "one", "1", "still one", "stillwell", "still water"]
+skill_two_cloud = ["skill two", "skill 2", "guity", "skill to", "skilled two", "skilled to", "skilled 2", "two", "to", "2", "skil to", "skil 2", "schooltube", "school 2", "school to"]
+skill_three_cloud = ["skill three", "skill 3", "skills 3", "skills three", "skillz three", "skillz 3", "three", "3", "sklz 3"]
+
 # MQTT related
 def on_connect(client, userdata, flags, rc):
   print("Connection returned result: " + str(rc))
@@ -24,17 +28,24 @@ def callback(recognizer, audio):
         if isinstance(res_dict, list):
             return
         output = None
+
+        predicted = []
         for transcript_dict in res_dict['alternative']:
-            if '1' in transcript_dict['transcript'] or 'one' in transcript_dict['transcript']:
+            predicted.append(transcript_dict['transcript'])
+
+        for each_predicted in predicted:
+            if each_predicted.lower() in skill_one_cloud:
                 output = 'skill 1'
                 break
-            elif '2' in transcript_dict['transcript'] or 'two' in transcript_dict['transcript']:
+            elif each_predicted.lower() in skill_two_cloud:
                 output = 'skill 2'
                 break
-            elif '3' in transcript_dict['transcript'] or 'three' in transcript_dict['transcript']:
+            elif each_predicted.lower() in skill_three_cloud:
                 output = 'skill 3'
                 break
+        
         if output != None:
+            print(output)
             client.publish(topic, output, qos=1)
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
@@ -73,7 +84,7 @@ if __name__ == '__main__':
     with m as source:
         r.adjust_for_ambient_noise(source)  # we only need to calibrate once, before we start listening
 
-    stop_listening = r.listen_in_background(m, callback, phrase_time_limit=2.5)
+    stop_listening = r.listen_in_background(m, callback, phrase_time_limit=2.0)
 
     # enter loop
     while True:
