@@ -28,7 +28,7 @@ float throttle_float = 0.0;
 
 
 // THIS IS SUBJECT TO CHANGE
-int MSG_INTERVAL = 30;
+int MSG_INTERVAL = 1;
 int COUNTER = 0;
 
 char MSG[10];
@@ -124,7 +124,7 @@ void setup()
     success &= (myICM.enableDMPSensor(INV_ICM20948_SENSOR_GAME_ROTATION_VECTOR) == ICM_20948_Stat_Ok);
     
     // Change sampling rate !!FIFO SHOULD NOT BE FILLED UP
-    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 20) == ICM_20948_Stat_Ok); 
+    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 12) == ICM_20948_Stat_Ok); 
 
     // Enable the FIFO
     success &= (myICM.enableFIFO() == ICM_20948_Stat_Ok);
@@ -184,7 +184,12 @@ void loop()
             t2 = t2 > 1.0 ? 1.0 : t2;
             t2 = t2 < -1.0 ? -1.0 : t2;           
             pitch = asin(t2) * 180.0 / PI;
-            pitch = 1 / 40.0 * pitch * pitch;
+            
+            if (pitch < 0) {
+                pitch = -1 / 40.0 * pitch * pitch;
+            } else {
+                pitch = 1 / 40.0 * pitch * pitch;
+            }
 
             float is_forward = digitalRead(FORWARD_B)?1:-1;
 
