@@ -24,6 +24,7 @@ TagManager:
   - NetworkManager
   - TimeLeft
   - BGMManager
+  - StartScreen
   layers:
   - Default
   - TransparentFX

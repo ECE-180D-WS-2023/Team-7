@@ -43,6 +43,7 @@ public class GameManager : NetworkBehaviour
                 RemoveBoundingBox();
 
                 RecursivelyDestoryGameObject(GameObject.FindGameObjectWithTag("TutorialSpace").transform);
+                RecursivelyDestoryGameObject(GameObject.FindGameObjectWithTag("StartScreen").transform);
 
             }
 
