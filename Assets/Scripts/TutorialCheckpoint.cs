@@ -25,11 +25,11 @@ public class TutorialCheckpoint : MonoBehaviour
     {
         if(id == 1)
         {
-            yield return new WaitForSeconds(20f);
+            yield return new WaitForSeconds(38f);
         }
         else
         {
-            yield return new WaitForSeconds(14f);
+            yield return new WaitForSeconds(20f);
         }
         GameObject Boundary = transform.Find("Plane").gameObject;
         Destroy(Boundary);
