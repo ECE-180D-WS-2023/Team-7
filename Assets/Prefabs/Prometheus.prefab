@@ -248,6 +248,9 @@ MonoBehaviour:
   syncInterval: 0.1
   SkillReleaseSuccess: {fileID: 6017053280057100451}
   SkillReleaseFailure: {fileID: 7830002953114051883}
+  SpeedUpTex: {fileID: 2800000, guid: 68037e26e6058c449b7e2f2189080628, type: 3}
+  SlowDownTex: {fileID: 2800000, guid: 8d4ff7433298be749aa4efec313aff53, type: 3}
+  InverseControlTex: {fileID: 2800000, guid: c5f2f8f9801ed2d429306b715f56b913, type: 3}
 --- !u!114 &5424218282327968515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +339,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873090344041170573}
   m_LocalRotation: {x: 0.019293308, y: -0.2580989, z: -0.072003625, w: 0.9632384}
-  m_LocalPosition: {x: 0, y: 0, z: 0.98}
+  m_LocalPosition: {x: 0, y: 0, z: 1.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -345,7 +348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -30, z: -8.55}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.84, y: -2.29}
+  m_AnchoredPosition: {x: -0.13, y: -2.41}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8006344619265008323
@@ -437,8 +440,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1445,8 +1448,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4109868768379493003}
   m_LocalRotation: {x: -0.6705787, y: -0.11844402, z: -0.2295448, w: 0.6954167}
-  m_LocalPosition: {x: -3.53, y: -0.29, z: -0.72}
-  m_LocalScale: {x: 0.45, y: 0.1, z: 0.02}
+  m_LocalPosition: {x: -2.77, y: -0.21, z: -0.3}
+  m_LocalScale: {x: 0.3, y: 0.1, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7982390245045896321}
@@ -1547,7 +1550,7 @@ MeshCollider:
   m_GameObject: {fileID: 5201729458526405241}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -1692,7 +1695,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6376855672932894911}
   m_LocalRotation: {x: 0.019293316, y: 0.258099, z: 0.072003625, w: 0.9632384}
-  m_LocalPosition: {x: 0, y: 0, z: 0.93}
+  m_LocalPosition: {x: 0, y: 0, z: 1.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1701,7 +1704,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 8.55}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.47, y: -2.3}
+  m_AnchoredPosition: {x: 0.11, y: -2.36}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5049198556545773400
@@ -1793,8 +1796,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2825,7 +2828,7 @@ MeshCollider:
   m_GameObject: {fileID: 9014743988967827712}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
