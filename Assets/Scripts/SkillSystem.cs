@@ -3,22 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using TMPro;
+using System;
+using UnityEngine.UI;
 
 public class SkillSystem : NetworkBehaviour
 {
 
-    private string[] MySkills = new string[3] { null, null, null };
+    // private string[] MySkills = new string[3] { null, null, null };
+    private string[] MySkills = new string[3] { "speed_up", "slow_opponent_down", "inverse_opponent_control" };
 
     public AudioSource SkillReleaseSuccess = null;
     public AudioSource SkillReleaseFailure = null;
 
-    // Start is called before the first frame update
-    void Start()
+    public Texture2D SpeedUpTex = null;
+    public Texture2D SlowDownTex = null;
+    public Texture2D InverseControlTex = null;
+
+    //private void Start()
+    //{
+    //    if (isLocalPlayer)
+    //    {
+    //        SkillIcon1 = GameObject.FindGameObjectWithTag("SkillIcon1");
+    //        SkillIcon2 = GameObject.FindGameObjectWithTag("SkillIcon2");
+    //        SkillIcon2 = GameObject.FindGameObjectWithTag("SkillIcon2");
+
+    //        if (SkillIcon1 != null)
+    //        {
+    //            Debug.Log("Checked");
+    //        }
+    //    }
+    //}
+
+    void UpdateSkillUI()
     {
         if (isLocalPlayer)
         {
-            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+            for (int i=0; i<3; i++) { 
+                if (MySkills[i] != null)
+                {
+                    if (MySkills[i] == "speed_up")
+                    {
+                        GameObject.FindGameObjectWithTag("SkillIcon"+i.ToString()).GetComponent<RawImage>().texture = SpeedUpTex;
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f,1f, 1f, 0.65f);
+                    }
+                    else if (MySkills[i] == "slow_opponent_down")
+                    {
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().texture = SlowDownTex;
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.65f);
+                    }
+                    else if (MySkills[i] == "inverse_opponent_control")
+                    {
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().texture = InverseControlTex;
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.65f);
+                    }
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().texture = null;
+                    GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+                }
+            }
         }
     }
 
@@ -45,8 +89,9 @@ public class SkillSystem : NetworkBehaviour
                 ReleaseSkill(MySkills[2]);
                 MySkills[2] = null;
             }
-            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+            // string uiText = string.Format("1. {0}\n\n2. {1}\n\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+            // GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+            UpdateSkillUI();
         }
     }
 
@@ -78,8 +123,9 @@ public class SkillSystem : NetworkBehaviour
             {
                 SkillReleaseFailure.Play();
             }
-            string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-            GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+            //string uiText = string.Format("1. {0}\n\n2. {1}\n\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+            //GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+            UpdateSkillUI();
         }
     }
 
@@ -96,8 +142,9 @@ public class SkillSystem : NetworkBehaviour
         }
 
         // Update Skills UI as well
-        string uiText = string.Format("1. {0}\n2. {1}\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
-        GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+        //string uiText = string.Format("1. {0}\n\n2. {1}\n\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
+        //GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
+        UpdateSkillUI();
     }
 
 
