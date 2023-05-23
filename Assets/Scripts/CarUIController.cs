@@ -57,6 +57,8 @@ public class CarUIController : NetworkBehaviour
         }
         else if (num == 2)
         {
+            TutorialUI.text = "There are three skills you can obtain:\n1. Speed up\n2. Slow opponent down\n3. Invert opponent control.";
+            yield return new WaitForSeconds(7f);
             TutorialUI.text = "The spinning cube is a random skill prop. Hit it to pick up a skill!";
             yield return new WaitForSeconds(5f);
             TutorialUI.text = "Say the skill ID to release a skill.\nE.g. Say: \"Skill 1\"";
