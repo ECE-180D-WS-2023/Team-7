@@ -10,7 +10,7 @@ public class SkillSystem : NetworkBehaviour
 {
 
     // private string[] MySkills = new string[3] { null, null, null };
-    private string[] MySkills = new string[3] { "speed_up", "slow_opponent_down", "inverse_opponent_control" };
+    private string[] MySkills = new string[3] { "speed_up", "slow_opponent_down", "invert_opponent_control" };
 
     public AudioSource SkillReleaseSuccess = null;
     public AudioSource SkillReleaseFailure = null;
@@ -44,17 +44,17 @@ public class SkillSystem : NetworkBehaviour
                     if (MySkills[i] == "speed_up")
                     {
                         GameObject.FindGameObjectWithTag("SkillIcon"+i.ToString()).GetComponent<RawImage>().texture = SpeedUpTex;
-                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f,1f, 1f, 0.65f);
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f,1f, 1f, 0.7f);
                     }
                     else if (MySkills[i] == "slow_opponent_down")
                     {
                         GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().texture = SlowDownTex;
-                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.65f);
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.7f);
                     }
-                    else if (MySkills[i] == "inverse_opponent_control")
+                    else if (MySkills[i] == "invert_opponent_control")
                     {
                         GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().texture = InverseControlTex;
-                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.65f);
+                        GameObject.FindGameObjectWithTag("SkillIcon" + i.ToString()).GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0.7f);
                     }
                 }
                 else
@@ -72,6 +72,7 @@ public class SkillSystem : NetworkBehaviour
         // THIS SECTION WILL BE DEPRECATED AFTER MQTT INTEGRATION
         if (isLocalPlayer)
         {
+   
             string playerMode = GetComponent<SwitchMode>().mode;
 
             if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null && playerMode == "Attack Mode")
@@ -92,6 +93,8 @@ public class SkillSystem : NetworkBehaviour
             // string uiText = string.Format("1. {0}\n\n2. {1}\n\n3. {2}", MySkills[0], MySkills[1], MySkills[2]);
             // GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
             UpdateSkillUI();
+
+            Debug.Log("1:" + MySkills[0] + "2:" + MySkills[1] + "3:" + MySkills[2]);
         }
     }
 
@@ -132,7 +135,8 @@ public class SkillSystem : NetworkBehaviour
 
     public void GetSkill(string skill)
     {
-        for (int i = 0; i < MySkills.Length; i++)
+
+        for (int i = 0; i < 3; i++)
         {
             if (MySkills[i] == null)
             {

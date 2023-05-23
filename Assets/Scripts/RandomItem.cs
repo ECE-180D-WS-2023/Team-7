@@ -20,7 +20,7 @@ public class RandomItem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        int rnd = Random.Range(0, Skills.Length);
+        int rnd = Random.Range(0, 3);
 
         if (Available)
         {
