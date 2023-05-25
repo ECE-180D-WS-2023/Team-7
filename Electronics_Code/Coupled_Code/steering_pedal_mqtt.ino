@@ -31,15 +31,15 @@ float throttle_float = 0.0;
 int MSG_INTERVAL = 1;
 int COUNTER = 0;
 
-char MSG[10];
+char MSG[13];
 
 bool DEBUG = false;
 /************************  END IMU and PEDAl VARIABLES ************************/
 
 /************************  START MQTT VARIABLES ************************/
 // WiFi
-const char *ssid = ""; // Enter your WiFi name lemur
-const char *password = "";  // Enter WiFi password lemur9473
+const char *ssid = "Alex4nd3r"; // Enter your WiFi name lemur
+const char *password = "3104867361";  // Enter WiFi password lemur9473
 
 // MQTT Broker
 const char *mqtt_broker = "mqtt.eclipseprojects.io";
@@ -124,7 +124,7 @@ void setup()
     success &= (myICM.enableDMPSensor(INV_ICM20948_SENSOR_GAME_ROTATION_VECTOR) == ICM_20948_Stat_Ok);
     
     // Change sampling rate !!FIFO SHOULD NOT BE FILLED UP
-    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 12) == ICM_20948_Stat_Ok); 
+    success &= (myICM.setDMPODRrate(DMP_ODR_Reg_Quat6, 15) == ICM_20948_Stat_Ok); // 12 tested
 
     // Enable the FIFO
     success &= (myICM.enableFIFO() == ICM_20948_Stat_Ok);
@@ -184,11 +184,11 @@ void loop()
             t2 = t2 > 1.0 ? 1.0 : t2;
             t2 = t2 < -1.0 ? -1.0 : t2;           
             pitch = asin(t2) * 180.0 / PI;
-            
-            if (pitch < 0) {
-                pitch = -1 / 40.0 * pitch * pitch;
+
+            if(pitch < 0) {
+              pitch = -1 / 80.0 * pitch * pitch;
             } else {
-                pitch = 1 / 40.0 * pitch * pitch;
+               pitch = 1 / 80.0 * pitch * pitch;
             }
 
             float is_forward = digitalRead(FORWARD_B)?1:-1;
@@ -217,7 +217,7 @@ void loop()
             }
 
             if (COUNTER % MSG_INTERVAL == 0){
-                snprintf(MSG, 10, "%d,%.2f", int(pitch) , throttle_float); 
+                snprintf(MSG, 13, "%.2f, %.2f", pitch , throttle_float); 
                 client.publish(topic, MSG);
                 client.loop();
 
