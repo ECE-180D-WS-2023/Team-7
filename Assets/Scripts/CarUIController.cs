@@ -42,27 +42,31 @@ public class CarUIController : NetworkBehaviour
         else if (num == 1)
         {
             TutorialUI.text = "Now, try to switch between Attack Mode and Defense Mode";
-            yield return new WaitForSeconds(3f);
-            TutorialUI.text = "In ATTACK MODE, you CAN use skills to speed up or affect your opponent's controls\nBut your opponent can do the same to you";
-            yield return new WaitForSeconds(8f);
-            TutorialUI.text = "In DEFENSE MODE, you CANNOT use skills and your opponent CANNOT affect your control.";
-            yield return new WaitForSeconds(5f);
-            TutorialUI.text = "Moving yourself LEFT -> Attack Mode.\nMoving yourself RIGHT -> Defense Mode";
-            yield return new WaitForSeconds(5f);
-            TutorialUI.text = "Keep going after you successfully switched modes!";
             yield return new WaitForSeconds(4f);
+            TutorialUI.text = "In ATTACK MODE, you CAN use skills.\nBut your opponent can slow you down or inverse your control.";
+            yield return new WaitForSeconds(8f);
+            TutorialUI.text = "In DEFENSE MODE, you CANNOT use skills and your opponent CANNOT affect you.";
+            yield return new WaitForSeconds(6f);
+            TutorialUI.text = "Moving yourself LEFT -> Attack Mode.\nMoving yourself RIGHT -> Defense Mode.";
+            yield return new WaitForSeconds(6f);
+            TutorialUI.text = "Staying in Defense Mode drains energy.\nDrift to charge!";
+            yield return new WaitForSeconds(6f);
+            TutorialUI.text = "Keep going after you successfully switched modes!";
+            yield return new WaitForSeconds(5f);
             TutorialUI.text = "";
         }
         else if (num == 2)
         {
+            TutorialUI.text = "There are three skills you can obtain:\n1. Speed up\n2. Slow opponent down\n3. Invert opponent control.";
+            yield return new WaitForSeconds(7f);
             TutorialUI.text = "The spinning cube is a random skill prop. Hit it to pick up a skill!";
             yield return new WaitForSeconds(5f);
             TutorialUI.text = "Say the skill ID to release a skill.\nE.g. Say: \"Skill 1\"";
             yield return new WaitForSeconds(5f);
             TutorialUI.text = "You can only carry 3 skills at a time!";
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             TutorialUI.text = "Go forward to move to the starting line!";
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             TutorialUI.text = "";
         }
     }

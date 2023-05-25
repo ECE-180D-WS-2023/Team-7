@@ -21,7 +21,7 @@ public class DefenseTimeLeft : MonoBehaviour
         {
             if (GetComponent<PrometeoCarController>().isDrifting)
             {
-                TimeLeft = TimeLeft + 5*Time.deltaTime;
+                TimeLeft = TimeLeft + 2.5f*Time.deltaTime;
             }
 
             if (GetComponent<SwitchMode>().mode == "Defense Mode")

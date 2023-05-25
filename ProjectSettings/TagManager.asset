@@ -23,6 +23,12 @@ TagManager:
   - TutorialPanel
   - NetworkManager
   - TimeLeft
+  - BGMManager
+  - StartScreen
+  - SkillIcon1
+  - SkillIcon2
+  - SkillIcon3
+  - SkillIcon0
   layers:
   - Default
   - TransparentFX

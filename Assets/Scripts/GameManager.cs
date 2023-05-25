@@ -43,6 +43,7 @@ public class GameManager : NetworkBehaviour
                 RemoveBoundingBox();
 
                 RecursivelyDestoryGameObject(GameObject.FindGameObjectWithTag("TutorialSpace").transform);
+                RecursivelyDestoryGameObject(GameObject.FindGameObjectWithTag("StartScreen").transform);
 
             }
 
@@ -53,6 +54,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void RemoveBoundingBox()
     {
+        GameObject.FindGameObjectWithTag("BGMManager").GetComponent<BGMController>().StartGameBGM();
+
         GameObject.FindGameObjectWithTag("Status").GetComponent<TMP_Text>().text = "GO!";
 
         foreach (GameObject StartBoundingBox in GameObject.FindGameObjectsWithTag("StartLine"))

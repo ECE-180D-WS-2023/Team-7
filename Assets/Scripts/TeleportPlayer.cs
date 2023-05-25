@@ -13,6 +13,7 @@ public class TeleportPlayer : MonoBehaviour
             player.GetComponent<PrometeoCarController>().MoveToStartPosition();
             player.GetComponent<CarUIController>().DeleteTutorialUIPanel();
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().OnPlayerJoining();
+            GameObject.FindGameObjectWithTag("BGMManager").GetComponent<BGMController>().StopPrepBGM();
         }
     }
 }
