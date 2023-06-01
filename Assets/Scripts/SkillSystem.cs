@@ -10,7 +10,7 @@ public class SkillSystem : NetworkBehaviour
 {
 
     // private string[] MySkills = new string[3] { null, null, null };
-    private string[] MySkills = new string[3] { "speed_up", "slow_opponent_down", "invert_opponent_control" };
+    private string[] MySkills = new string[3] { null, null, null };
 
     public AudioSource SkillReleaseSuccess = null;
     public AudioSource SkillReleaseFailure = null;
@@ -94,7 +94,7 @@ public class SkillSystem : NetworkBehaviour
             // GameObject.FindGameObjectWithTag("UISkill").GetComponent<TMP_Text>().text = uiText;
             UpdateSkillUI();
 
-            Debug.Log("1:" + MySkills[0] + "2:" + MySkills[1] + "3:" + MySkills[2]);
+            //Debug.Log("1:" + MySkills[0] + "2:" + MySkills[1] + "3:" + MySkills[2]);
         }
     }
 

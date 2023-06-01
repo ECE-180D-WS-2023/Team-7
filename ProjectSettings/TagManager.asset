@@ -29,6 +29,8 @@ TagManager:
   - SkillIcon2
   - SkillIcon3
   - SkillIcon0
+  - GameStarter
+  - ProgressTracker
   layers:
   - Default
   - TransparentFX

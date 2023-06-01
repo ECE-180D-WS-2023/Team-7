@@ -462,7 +462,7 @@ public class PrometeoCarController : NetworkBehaviour
         frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
     }
 
-    public void TurnLeftIMU(int IMUSteeringAngle)
+    public void TurnLeftIMU(float IMUSteeringAngle)
     {
         if (IMUSteeringAngle > -DeadZone)
         {
@@ -490,7 +490,7 @@ public class PrometeoCarController : NetworkBehaviour
         frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
     }
 
-    public void TurnRightIMU(int IMUSteeringAngle)
+    public void TurnRightIMU(float IMUSteeringAngle)
     {
         if (IMUSteeringAngle < DeadZone)
         {
