@@ -6,7 +6,7 @@ using Mirror;
 public class GameStarter : MonoBehaviour
 {
 
-    private GameObject UISystem = null;
+    public GameObject UISystem = null;
     private NetworkManager Manager = null;
     private bool Started = false;
 
@@ -30,9 +30,9 @@ public class GameStarter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Started && Input.anyKey)
+        if (!Started && Input.GetKeyDown(KeyCode.Space))
         {
-            UISystem.SetActive(true);
+            // UISystem.SetActive(true);
 
 
             if (ConnectionType == Connection.Host)

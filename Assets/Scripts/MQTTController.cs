@@ -37,7 +37,7 @@ public class MQTTController : MonoBehaviour
                 if (playerToControl.GetComponent<PrometeoCarController>().UsingIMUInput && playerToControl.GetComponent<PrometeoCarController>().isLocalPlayer)
                 {
                     string[] dataString = newMsg.Split(',');
-                    int angle = Int32.Parse(dataString[0]);
+                    float angle = Single.Parse(dataString[0]);
                     float throttle = Single.Parse(dataString[1]);
 
                     if (angle > 0)

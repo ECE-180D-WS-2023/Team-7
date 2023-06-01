@@ -14,6 +14,8 @@ public class CarUIController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            GameObject.FindGameObjectWithTag("GameStarter").GetComponent<GameStarter>().UISystem.SetActive(true);
+
             TutorialUI = GameObject.FindGameObjectWithTag("TutorialHint").GetComponent<TMP_Text>();
             TutorialUI.text = "Welcome!";
             IEnumerator coroutine = PrintNextLine(0);

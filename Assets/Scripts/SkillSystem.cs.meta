@@ -9,7 +9,7 @@ MonoImporter:
   - SpeedUpTex: {fileID: 2800000, guid: 68037e26e6058c449b7e2f2189080628, type: 3}
   - SlowDownTex: {fileID: 2800000, guid: 8d4ff7433298be749aa4efec313aff53, type: 3}
   - InverseControlTex: {fileID: 2800000, guid: c5f2f8f9801ed2d429306b715f56b913, type: 3}
-  executionOrder: 0
+  executionOrder: 1400
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
