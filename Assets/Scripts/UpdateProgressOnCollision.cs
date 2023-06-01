@@ -20,7 +20,8 @@ public class UpdateProgressOnCollision : MonoBehaviour
         {
             Debug.Log("checkpoint triggered");
             Reached = true;
-            player.GetComponent<UpdateStats>().UpdateProgress();
+            // player.GetComponent<UpdateStats>().UpdateProgress();
+            player.GetComponent<UpdateStats>().CheckpointsReached += 1;
             GetComponent<MeshRenderer>().material = Material;
 
             OnReached.Play();

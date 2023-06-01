@@ -31,25 +31,62 @@ public class UpdateStats : NetworkBehaviour
     }
 
 
+    //[Command(requiresAuthority = false)]
+    //public void UpdateProgress()
+    //{
+    //    Debug.Log("Client updating progress...");
+
+    //    // CheckpointsReached += ;
+
+    //    TotalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+    //    int playerID = GetComponent<NetworkInfo>().PlayerID;
+    //    if (playerID == 1)
+    //    {
+    //        Debug.Log("Player1 updating progress..." + CheckpointsReached.ToString());
+    //        GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<DisplayStats>().PlayerProgress = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+    //    } else if (playerID == 2)
+    //    {
+    //        Debug.Log("Player2 updating progress..." + CheckpointsReached.ToString());
+    //        GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<DisplayStats>().PlayerProgress = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+    //    }
+    //}
+
+
     [Command(requiresAuthority = false)]
-    public void UpdateProgress()
+    private void SetMyProgress(int playerID, int checkpoints)
     {
-        Debug.Log("Client updating progress...");
-
-        CheckpointsReached += 1;
-
-        TotalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
-        int playerID = GetComponent<NetworkInfo>().PlayerID;
-        if (playerID == 1)
+        if (playerID == 1) {
+            GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player1progress = checkpoints;
+        }
+        else
         {
-            Debug.Log("Player1 updating progress..." + CheckpointsReached.ToString());
-            GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<DisplayStats>().PlayerProgress = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
-        } else if (playerID == 2)
-        {
-            Debug.Log("Player2 updating progress..." + CheckpointsReached.ToString());
-            GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<DisplayStats>().PlayerProgress = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+            GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player2progress = checkpoints;
         }
     }
+
+
+
+    private void UpdateProgressUI()
+    {
+        int playerID = GetComponent<NetworkInfo>().PlayerID;
+
+        SetMyProgress(playerID, CheckpointsReached);
+
+
+        if (playerID == 1)
+        {
+            int opponentProgress = GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player2progress;
+            GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+            GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text = "Player2: " + opponentProgress.ToString() + "/" + TotalCheckpoints.ToString();
+        } else
+        {
+            int opponentProgress = GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player1progress;
+            GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
+            GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + opponentProgress.ToString() + "/" + TotalCheckpoints.ToString();
+        }
+
+    }
+
 
     public bool CheckIfIsWinner()
     {
@@ -59,8 +96,8 @@ public class UpdateStats : NetworkBehaviour
         }
 
         int playerID = GetComponent<NetworkInfo>().PlayerID;
-        string player1Stats = GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<DisplayStats>().PlayerProgress;
-        string player2Stats = GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<DisplayStats>().PlayerProgress;
+        string player1Stats = GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text;
+        string player2Stats = GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text;
 
         if (playerID == 1 && player1Stats == "Player1: 5/5" && player2Stats != "Player2: 5/5")
         {
@@ -89,6 +126,9 @@ public class UpdateStats : NetworkBehaviour
                 LapTime += Time.deltaTime;
             }
             UpdateTime();
+
+            UpdateProgressUI();
+
         } else if (isLocalPlayer == false && UIDestroyed == false)
         {
             Destroy(transform.Find("UI").Find("Speedometer").gameObject);
