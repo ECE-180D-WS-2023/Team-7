@@ -283,7 +283,7 @@ MonoBehaviour:
   syncInterval: 0.1
   Speed: 0
   CheckpointsReached: 0
-  TotalCheckpoints: 0
+  TotalCheckpoints: 5
 --- !u!114 &2803430939122561944
 MonoBehaviour:
   m_ObjectHideFlags: 0

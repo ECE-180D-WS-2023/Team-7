@@ -7,7 +7,6 @@ public class BGMController : MonoBehaviour
 
     AudioSource Prep = null;
     AudioSource Game = null;
-    bool GameHasStarted = false;
 
     // Start is called before the first frame update
     void Start()

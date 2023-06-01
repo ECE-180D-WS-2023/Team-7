@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class GameStarter : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class GameStarter : MonoBehaviour
 
     public enum Connection // your custom enumeration
     {
-        Host,
+        Client,
         Server,
-        Client
+        Host
     };
     public Connection ConnectionType;
 
@@ -30,7 +31,7 @@ public class GameStarter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Started && Input.GetKeyDown(KeyCode.Space))
+        if (!Started && Input.GetKeyDown(KeyCode.Return))
         {
             // UISystem.SetActive(true);
 
@@ -40,7 +41,7 @@ public class GameStarter : MonoBehaviour
                 Manager.StartHost();
             } else if (ConnectionType == Connection.Client)
             {
-                Manager.StartClient();
+                Manager.StartClient("34.94.115.129");
             } else
             {
                 Manager.StartServer();
