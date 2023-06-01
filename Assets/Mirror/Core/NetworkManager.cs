@@ -379,6 +379,35 @@ namespace Mirror
             OnStartClient();
         }
 
+        public void StartClient(string serverAddress)
+        {
+            if (NetworkClient.active)
+            {
+                Debug.LogWarning("Client already started.");
+                return;
+            }
+
+            mode = NetworkManagerMode.ClientOnly;
+
+            SetupClient();
+
+            // In case this is a headless client...
+            ConfigureHeadlessFrameRate();
+
+            RegisterClientMessages();
+
+            if (string.IsNullOrWhiteSpace(serverAddress))
+            {
+                Debug.LogError("Must set the serverAddress field in the manager");
+                return;
+            }
+            // Debug.Log($"NetworkManager StartClient address:{networkAddress}");
+
+            NetworkClient.Connect(serverAddress);
+
+            OnStartClient();
+        }
+
         /// <summary>Starts the client, connects it to the server via Uri</summary>
         public void StartClient(Uri uri)
         {

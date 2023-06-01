@@ -9,7 +9,7 @@ public class UpdateStats : NetworkBehaviour
 
     public int Speed = 0;
     public int CheckpointsReached = 0;
-    public int TotalCheckpoints = 0;
+    public int TotalCheckpoints = 5;
     private bool IsWinner = false;
     private bool UIDestroyed = false;
     private float LapTime = 0.0f;
@@ -133,7 +133,11 @@ public class UpdateStats : NetworkBehaviour
         {
             Destroy(transform.Find("UI").Find("Speedometer").gameObject);
             Destroy(transform.Find("UI").Find("ModeIndicator").gameObject);
-            Destroy(transform.Find("UI"));
+            Destroy(transform.Find("UI").Find("Timer").gameObject);
+            Destroy(transform.Find("UI").Find("DefenseModeTimeLeft").Find("TimeLeftBackground").gameObject);
+            Destroy(transform.Find("UI").Find("DefenseModeTimeLeft").Find("TimeLeft").gameObject);
+            Destroy(transform.Find("UI").Find("DefenseModeTimeLeft").gameObject);
+            Destroy(transform.Find("UI").gameObject);
             UIDestroyed = true;
         }
     }
