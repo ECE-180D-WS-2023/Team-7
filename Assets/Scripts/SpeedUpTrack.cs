@@ -32,6 +32,16 @@ public class SpeedUpTrack : MonoBehaviour
         GameObject player = other.transform.root.gameObject;
         if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer)
         {
+
+            if (player.GetComponent<NetworkInfo>().PlayerID == 1 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player1_speedup == true)
+            {
+                return;
+            } 
+            else if (player.GetComponent<NetworkInfo>().PlayerID == 2 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player2_speedup == true)
+            {
+                return;
+            }
+
             player.GetComponent<PrometeoCarController>().maxSpeed = 180;
             player.GetComponent<PrometeoCarController>().accelerationMultiplier = 15;
 
