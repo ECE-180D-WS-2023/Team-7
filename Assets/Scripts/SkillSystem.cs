@@ -19,6 +19,9 @@ public class SkillSystem : NetworkBehaviour
     public Texture2D SlowDownTex = null;
     public Texture2D InverseControlTex = null;
 
+    private int SelfPlayerID = -1;
+    private int OppoPlayerID = -1;
+
     //private void Start()
     //{
     //    if (isLocalPlayer)
@@ -33,6 +36,21 @@ public class SkillSystem : NetworkBehaviour
     //        }
     //    }
     //}
+
+
+    private void Start()
+    {
+        SelfPlayerID = gameObject.GetComponent<NetworkInfo>().PlayerID;
+        if (SelfPlayerID == 1 )
+        {
+            OppoPlayerID = 2;
+        }
+        else
+        {
+            OppoPlayerID = 1;
+        }
+    }
+
 
     void UpdateSkillUI()
     {
@@ -171,8 +189,54 @@ public class SkillSystem : NetworkBehaviour
         }
     }
 
+
+    [Command(requiresAuthority = false)]
+    private void UpdatePlayerStatus(int playerID, int type, bool setTo)
+    {
+
+        StatusTracker statusTracker = GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>();
+
+        if (playerID == 1)
+        {
+            switch (type)
+            {
+                case 0:
+                    statusTracker.player1_speedup = setTo;
+                    break;
+                case 1:
+                    statusTracker.player1_slowdown = setTo;
+                    break;
+                case 2:
+                    statusTracker.player1_inverse = setTo;
+                    break;
+            }
+        }
+        else
+        {
+            switch (type)
+            {
+                case 0:
+                    statusTracker.player2_speedup = setTo;
+                    break;
+                case 1:
+                    statusTracker.player2_slowdown = setTo;
+                    break;
+                case 2:
+                    statusTracker.player2_inverse = setTo;
+                    break;
+            }
+        }
+    }
+
+
+
+
+
     private void SpeedUp()
     {
+        
+        UpdatePlayerStatus(SelfPlayerID, 0, true);
+
         GetComponent<PrometeoCarController>().maxSpeed = 180;
         GetComponent<PrometeoCarController>().accelerationMultiplier = 10;
 
@@ -185,6 +249,8 @@ public class SkillSystem : NetworkBehaviour
         yield return new WaitForSeconds(5.0f);
         GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
         GetComponent<PrometeoCarController>().accelerationMultiplier = GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
+
+        UpdatePlayerStatus(SelfPlayerID, 0, false);
     }
 
 
@@ -219,6 +285,8 @@ public class SkillSystem : NetworkBehaviour
         target.GetComponent<PrometeoCarController>().maxSpeed = 50;
         target.GetComponent<PrometeoCarController>().accelerationMultiplier = 2;
 
+        UpdatePlayerStatus(OppoPlayerID, 1, true);
+
         IEnumerator coroutine = OpponnetSlowDownEffectTimeout(target);
         StartCoroutine(coroutine);
     }
@@ -234,6 +302,8 @@ public class SkillSystem : NetworkBehaviour
     {
         target.GetComponent<PrometeoCarController>().maxSpeed = target.GetComponent<PrometeoCarController>().OriginalMaxSpeed;
         target.GetComponent<PrometeoCarController>().accelerationMultiplier = target.GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
+
+        UpdatePlayerStatus(OppoPlayerID, 1, false);
     }
 
 
@@ -266,6 +336,8 @@ public class SkillSystem : NetworkBehaviour
 
         target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;
 
+        UpdatePlayerStatus(OppoPlayerID, 2, true);
+
         IEnumerator coroutine = InvertOpponnetCtrlEffectTimeout(target);
         StartCoroutine(coroutine);
     }
@@ -274,6 +346,8 @@ public class SkillSystem : NetworkBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         target.GetComponent<PrometeoCarController>().SteeringInverter *= -1;
+
+        UpdatePlayerStatus(OppoPlayerID, 2, false);
     }
 
 }

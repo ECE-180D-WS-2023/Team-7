@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 5424218282327968515}
   - component: {fileID: 2803430939122561944}
   - component: {fileID: 2254275453949463410}
+  - component: {fileID: -2255099583155830815}
   m_Layer: 0
   m_Name: Prometheus
   m_TagString: Player
@@ -313,6 +314,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f320ac0d45436c488f76b3930cc6835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2255099583155830815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642287924342879162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366a49af69059d54d8875ae9e65296b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &873090344041170573
 GameObject:
   m_ObjectHideFlags: 0
