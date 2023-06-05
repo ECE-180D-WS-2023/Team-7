@@ -33,27 +33,29 @@ public class SpeedUpTrack : MonoBehaviour
         if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer)
         {
 
-            if (player.GetComponent<NetworkInfo>().PlayerID == 1 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player1_speedup == true)
-            {
-                return;
-            } 
-            else if (player.GetComponent<NetworkInfo>().PlayerID == 2 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player2_speedup == true)
-            {
-                return;
-            }
+            //if (player.GetComponent<NetworkInfo>().PlayerID == 1 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player1_speedup == true)
+            //{
+            //    return;
+            //} 
+            //else if (player.GetComponent<NetworkInfo>().PlayerID == 2 && GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>().player2_speedup == true)
+            //{
+            //    return;
+            //}
 
-            player.GetComponent<PrometeoCarController>().maxSpeed = 180;
-            player.GetComponent<PrometeoCarController>().accelerationMultiplier = 15;
+            //player.GetComponent<PrometeoCarController>().maxSpeed = 180;
+            //player.GetComponent<PrometeoCarController>().accelerationMultiplier = 15;
 
-            IEnumerator coroutine = SpeedUpTimeout(player);
-            StartCoroutine(coroutine);
+            //IEnumerator coroutine = SpeedUpTimeout(player);
+            //StartCoroutine(coroutine);
+
+            player.GetComponent<SkillSystem>().SpeedUp(0.5f);
         }
     }
 
-    private IEnumerator SpeedUpTimeout(GameObject player)
-    {
-        yield return new WaitForSeconds(1.0f);
-        player.GetComponent<PrometeoCarController>().maxSpeed = player.GetComponent<PrometeoCarController>().OriginalMaxSpeed;
-        player.GetComponent<PrometeoCarController>().accelerationMultiplier = player.GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
-    }
+    //private IEnumerator SpeedUpTimeout(GameObject player)
+    //{
+    //    yield return new WaitForSeconds(1.0f);
+    //    player.GetComponent<PrometeoCarController>().maxSpeed = player.GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+    //    player.GetComponent<PrometeoCarController>().accelerationMultiplier = player.GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
+    //}
 }

@@ -22,6 +22,8 @@ public class SkillSystem : NetworkBehaviour
     private int SelfPlayerID = -1;
     private int OppoPlayerID = -1;
 
+    private float SpeedUpTimeLeft = 0;
+
     //private void Start()
     //{
     //    if (isLocalPlayer)
@@ -113,6 +115,34 @@ public class SkillSystem : NetworkBehaviour
             UpdateSkillUI();
 
             //Debug.Log("1:" + MySkills[0] + "2:" + MySkills[1] + "3:" + MySkills[2]);
+
+            // ADD SPEED CONTROL
+            StatusTracker statusTracker = GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>();
+            if (SelfPlayerID == 1 && statusTracker.player1_slowdown && SpeedUpTimeLeft > 0)
+            {
+                SpeedUpTimeLeft = 0;
+            } 
+            else if (SelfPlayerID == 2 && statusTracker.player2_slowdown && SpeedUpTimeLeft > 0)
+            {
+                SpeedUpTimeLeft = 0;
+            }
+
+            if (SpeedUpTimeLeft > 0)
+            {
+                GetComponent<PrometeoCarController>().maxSpeed = 180;
+                GetComponent<PrometeoCarController>().accelerationMultiplier = 10;
+                SpeedUpTimeLeft -= Time.deltaTime;
+                UpdatePlayerStatus(SelfPlayerID, 0, true);
+            } 
+            else if ((SelfPlayerID == 1 && !statusTracker.player1_slowdown) || (SelfPlayerID == 2 && !statusTracker.player2_slowdown))
+            {
+                GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+                GetComponent<PrometeoCarController>().accelerationMultiplier = GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
+                UpdatePlayerStatus(SelfPlayerID, 0, false);
+                SpeedUpTimeLeft = 0;
+            }
+
+
         }
     }
 
@@ -176,7 +206,7 @@ public class SkillSystem : NetworkBehaviour
         {
             case "speed_up":
                 Debug.Log("Client: speed up");
-                SpeedUp();
+                SpeedUp(3.0f);
                 break;
             case "slow_opponent_down":
                 Debug.Log("Client: slow opponent down");
@@ -232,26 +262,22 @@ public class SkillSystem : NetworkBehaviour
 
 
 
-    private void SpeedUp()
+    public void SpeedUp(float time)
     {
-        
-        UpdatePlayerStatus(SelfPlayerID, 0, true);
 
-        GetComponent<PrometeoCarController>().maxSpeed = 180;
-        GetComponent<PrometeoCarController>().accelerationMultiplier = 10;
+        // UpdatePlayerStatus(SelfPlayerID, 0, true);
 
-        IEnumerator coroutine = SkillEffectTimeout();
-        StartCoroutine(coroutine);
+        SpeedUpTimeLeft += time;
     }
 
-    private IEnumerator SkillEffectTimeout()
-    {
-        yield return new WaitForSeconds(5.0f);
-        GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
-        GetComponent<PrometeoCarController>().accelerationMultiplier = GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
+    //private IEnumerator SkillEffectTimeout()
+    //{
+    //    //yield return new WaitForSeconds(5.0f);
+    //    //GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
+    //    //GetComponent<PrometeoCarController>().accelerationMultiplier = GetComponent<PrometeoCarController>().OriginalAccelerationMultiplier;
 
-        UpdatePlayerStatus(SelfPlayerID, 0, false);
-    }
+    //    // UpdatePlayerStatus(SelfPlayerID, 0, false);
+    //}
 
 
 
