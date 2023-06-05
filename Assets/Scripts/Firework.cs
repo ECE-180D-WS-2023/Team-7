@@ -7,7 +7,7 @@ public class Firework : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameObject player = other.transform.root.gameObject;
-        if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer && player.GetComponent<UpdateStats>().CheckIfIsWinner())
+        if (player.tag == "Player" && player.GetComponent<UpdateStats>().isLocalPlayer && player.GetComponent<UpdateStats>().IsWinner)
         {
             transform.Find("Particles").gameObject.GetComponent<ParticleSystem>().Play();
         }

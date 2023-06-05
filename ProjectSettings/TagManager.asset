@@ -35,6 +35,7 @@ TagManager:
   - Status1
   - Status2
   - Status3
+  - RearView
   layers:
   - Default
   - TransparentFX

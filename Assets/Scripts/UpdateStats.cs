@@ -10,9 +10,10 @@ public class UpdateStats : NetworkBehaviour
     public int Speed = 0;
     public int CheckpointsReached = 0;
     public int TotalCheckpoints = 5;
-    private bool IsWinner = false;
+    public bool IsWinner = false;
     private bool UIDestroyed = false;
     private float LapTime = 0.0f;
+    private string FinishTime = "";
 
     private void UpdateSpeed()
     {
@@ -22,12 +23,21 @@ public class UpdateStats : NetworkBehaviour
 
     private void UpdateTime()
     {
-        string time = string.Format("{0:0}:{1:00}.{2:0}",
-                        Mathf.Floor(LapTime / 60),
-                        Mathf.Floor(LapTime) % 60,
-                        Mathf.Floor((LapTime * 10) % 10));
+        if (CheckpointsReached != 5)
+        {
+            string time = string.Format("{0:0}:{1:00}.{2:0}",
+                            Mathf.Floor(LapTime / 60),
+                            Mathf.Floor(LapTime) % 60,
+                            Mathf.Floor((LapTime * 10) % 10));
 
-        transform.Find("UI").Find("Timer").gameObject.GetComponent<TMP_Text>().text = "Lap: " + time + "s";
+            transform.Find("UI").Find("Timer").gameObject.GetComponent<TMP_Text>().text = "Lap: " + time;
+        } else if (CheckpointsReached == 5 && FinishTime == "")
+        {
+            FinishTime = string.Format("{0:0}:{1:00}.{2:0}",
+                            Mathf.Floor(LapTime / 60),
+                            Mathf.Floor(LapTime) % 60,
+                            Mathf.Floor((LapTime * 10) % 10));
+        }
     }
 
 
@@ -78,40 +88,41 @@ public class UpdateStats : NetworkBehaviour
             int opponentProgress = GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player2progress;
             GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
             GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text = "Player2: " + opponentProgress.ToString() + "/" + TotalCheckpoints.ToString();
+
+            if (CheckpointsReached == 5 && opponentProgress < 5 && !IsWinner)
+            {
+                GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().winnerID = 1;
+                IsWinner = true;
+            }
+
+            if (CheckpointsReached == 5)
+            {
+                GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + FinishTime;
+            }
+
         } else
         {
             int opponentProgress = GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().player1progress;
             GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text = "Player2: " + CheckpointsReached.ToString() + "/" + TotalCheckpoints.ToString();
             GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + opponentProgress.ToString() + "/" + TotalCheckpoints.ToString();
+
+            if (CheckpointsReached == 5 && opponentProgress < 5 == !IsWinner)
+            {
+                GameObject.FindGameObjectWithTag("ProgressTracker").GetComponent<ProgressTracker>().winnerID = 2;
+                IsWinner = true;
+            }
+
+            if (CheckpointsReached == 5)
+            {
+                GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text = "Player1: " + FinishTime;
+            }
         }
 
     }
 
 
-    public bool CheckIfIsWinner()
-    {
-        if (IsWinner)
-        {
-            return true;
-        }
 
-        int playerID = GetComponent<NetworkInfo>().PlayerID;
-        string player1Stats = GameObject.FindGameObjectWithTag("UIProgress1").GetComponent<TMP_Text>().text;
-        string player2Stats = GameObject.FindGameObjectWithTag("UIProgress2").GetComponent<TMP_Text>().text;
 
-        if (playerID == 1 && player1Stats == "Player1: 5/5" && player2Stats != "Player2: 5/5")
-        {
-            IsWinner = true;
-            return true;
-        }
-        if (playerID == 2 && player1Stats == "Player2: 5/5" && player2Stats != "Player1: 5/5")
-        {
-            IsWinner = true;
-            return true;
-        }
-
-        return false;
-    }
 
     // Update is called once per frame
     void FixedUpdate()

@@ -9,4 +9,6 @@ public class ProgressTracker : NetworkBehaviour
     public int player1progress = 0;
     [SyncVar]
     public int player2progress = 0;
+    [SyncVar]
+    public int winnerID = -1;
 }
