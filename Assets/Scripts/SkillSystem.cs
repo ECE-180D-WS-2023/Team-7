@@ -19,8 +19,8 @@ public class SkillSystem : NetworkBehaviour
     public Texture2D SlowDownTex = null;
     public Texture2D InverseControlTex = null;
 
-    private int SelfPlayerID = -1;
-    private int OppoPlayerID = -1;
+    public int SelfPlayerID = -1;
+    public int OppoPlayerID = -1;
 
     private float SpeedUpTimeLeft = 0;
 
@@ -40,24 +40,28 @@ public class SkillSystem : NetworkBehaviour
     //}
 
 
-    private void Start()
-    {
-        SelfPlayerID = gameObject.GetComponent<NetworkInfo>().PlayerID;
-        if (SelfPlayerID == 1 )
-        {
-            OppoPlayerID = 2;
-        }
-        else
-        {
-            OppoPlayerID = 1;
-        }
-    }
+    //private void Start()
+    //{
+    //    if (isLocalPlayer)
+    //    {
+    //        SelfPlayerID = gameObject.GetComponent<NetworkInfo>().PlayerID;
+    //        if (SelfPlayerID == 1)
+    //        {
+    //            OppoPlayerID = 2;
+    //        }
+    //        else
+    //        {
+    //            OppoPlayerID = 1;
+    //        }
+    //    }
+    //}
 
 
     void UpdateSkillUI()
     {
         if (isLocalPlayer)
         {
+
             for (int i=0; i<3; i++) { 
                 if (MySkills[i] != null)
                 {
@@ -92,7 +96,20 @@ public class SkillSystem : NetworkBehaviour
         // THIS SECTION WILL BE DEPRECATED AFTER MQTT INTEGRATION
         if (isLocalPlayer)
         {
-   
+
+            if (SelfPlayerID == -1 || OppoPlayerID == -1)
+            {
+                SelfPlayerID = GetComponent<NetworkInfo>().PlayerID;
+                if (SelfPlayerID == 1)
+                {
+                    OppoPlayerID = 2;
+                }
+                else
+                {
+                    OppoPlayerID = 1;
+                }
+            }
+
             string playerMode = GetComponent<SwitchMode>().mode;
 
             if (Input.GetKeyDown(KeyCode.Alpha1) && MySkills[0] != null && playerMode == "Attack Mode")
@@ -133,7 +150,7 @@ public class SkillSystem : NetworkBehaviour
                 GetComponent<PrometeoCarController>().accelerationMultiplier = 10;
                 SpeedUpTimeLeft -= Time.deltaTime;
                 UpdatePlayerStatus(SelfPlayerID, 0, true);
-            } 
+            }
             else if ((SelfPlayerID == 1 && !statusTracker.player1_slowdown) || (SelfPlayerID == 2 && !statusTracker.player2_slowdown))
             {
                 GetComponent<PrometeoCarController>().maxSpeed = GetComponent<PrometeoCarController>().OriginalMaxSpeed;
@@ -141,8 +158,6 @@ public class SkillSystem : NetworkBehaviour
                 UpdatePlayerStatus(SelfPlayerID, 0, false);
                 SpeedUpTimeLeft = 0;
             }
-
-
         }
     }
 
@@ -223,6 +238,7 @@ public class SkillSystem : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void UpdatePlayerStatus(int playerID, int type, bool setTo)
     {
+        Debug.Log($"PlayerStatus: {playerID}");
 
         StatusTracker statusTracker = GameObject.FindGameObjectWithTag("StatusTracker").GetComponent<StatusTracker>();
 
